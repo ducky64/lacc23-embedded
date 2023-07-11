@@ -108,7 +108,7 @@ While this is still C++ code, this differs from the prior examples significantly
 
 Adjust the code so that the LED blinks once every two seconds, and at 75% on, 25% off.
 
-<details><summary>**Solution** (try it on your own first!)</summary>
+<details><summary><b>Solution</b> (try it on your own first!)</summary>
 
   For this, we only need to change the delay that controls how long the LED is on.
 
@@ -185,7 +185,7 @@ Hopefully this new code is pretty straightforward, though it also helps to know:
 While the above example completely removes the blinking LED, bring back the blinking LED with a twist: the LED should only blink when the button is pressed, and should be off otherwise.
 It's up to you how long the LED takes to react to a button press or release, but opt for the simpler solution.
 
-<details><summary>**Solution** (try it on your own first!)</summary>
+<details><summary><b>Solution</b> (try it on your own first!)</summary>
 
   ```cpp
   void loop() {
@@ -317,7 +317,7 @@ This is fine.
 Write your code in a way that's robust to different `kNeopixelCount`.
 While there's many ways to implement this, you might consider using the modulo operator `%` to determine where in the sequence of 6 colors a particular pixel is at.
 
-<details><summary>**Solution** (try it on your own first!)</summary>
+<details><summary><b>Solution</b> (try it on your own first!)</summary>
 
   ```cpp
   void loop() {
@@ -350,7 +350,7 @@ Now that you have a rainbow ring, have it rotate, advancing four LEDs per second
 
 If you want to save state between loops, you can declare a variable outside `loop()`, and both update and read from it within `loop()`.
 
-<details><summary>**Solution** (try it on your own first!)</summary>
+<details><summary><b>Solution</b> (try it on your own first!)</summary>
 
   For this, we just added an offset to the index, which increments between each loop.
 
@@ -407,7 +407,7 @@ void loop() {
 Give it a try and see what happens - note what happens to the LED ring animation when you press the button!
 Why do you think this is happening?
 
-<details><summary>**Explanation** (think about it your own first!)</summary>
+<details><summary><b>Explanation</b> (think about it your own first!)</summary>
 
   
 </details>
