@@ -285,13 +285,14 @@ void loop() {
 Once again, there's a few new things in this example:
 - We've already covered `#include` in the prior Intro to C++ section.
 - While we've covered object use above, here you have to create the `Adafruit_NeoPixel` object.
-  - The syntax for creating an object in C++ is the class name, variable name, and arguments.
+  - The syntax for creating an object in C++ is the class name, variable name, and arguments.  
     `Adafruit_NeoPixel LedRing(kNeopixelCount, kNeopixelPin);` means to create an object of class `Adafruit_NeoPixel`, named `LedRing`, and with arguments `kNeopixelCount` and `kNeopixelPin`.
   - When you're familiar with the base language, one trick to quickly getting started with a library is to look for an example and pattern-match.
     Here, we've largely adapted the Adafruit NeoPixel example on the readme: [https://github.com/adafruit/Adafruit_NeoPixel#simple](https://github.com/adafruit/Adafruit_NeoPixel#simple)
   - You can also look for the library interfaces.
-    In [Adafruit_NeoPixel.h](https://github.com/adafruit/Adafruit_NeoPixel/blob/ca89075cc5091a06ac5e5f162a467b877f95f00c/Adafruit_NeoPixel.h#L219), the object constructor is defined as `Adafruit_NeoPixel(uint16_t n, int16_t pin = 6,
-    neoPixelType type = NEO_GRB + NEO_KHZ800);`.
+    In [Adafruit_NeoPixel.h](https://github.com/adafruit/Adafruit_NeoPixel/blob/ca89075cc5091a06ac5e5f162a467b877f95f00c/Adafruit_NeoPixel.h#L219), the object constructor is defined as  
+    `Adafruit_NeoPixel(uint16_t n, int16_t pin = 6,
+    neoPixelType type = NEO_GRB + NEO_KHZ800);`  
     That is:
     - The first argument `n` is the number of pixels.
     - The second argument `pin` is the connected GPIO pin (defaults to `6` if unspecified).
@@ -395,7 +396,7 @@ void loop() {
   
   // your LED ring code here
   
-  if (!digitalRead(kButtonPin)) {  // just gate the blinking with an if conditional on the button state 
+  if (!digitalRead(kButtonPin)) { 
     digitalWrite(kLedPin, HIGH);
     delay(500);
     digitalWrite(kLedPin, LOW);
@@ -404,12 +405,110 @@ void loop() {
 }
 ```
 
-Give it a try and see what happens - note what happens to the LED ring animation when you press the button!
+Give it a try and find out - note what happens to the LED ring animation when you press the button!
 Why do you think this is happening?
 
 <details><summary><b>Explanation</b> (think about it your own first!)</summary>
 
-  
+  The problem is that `loop()` runs as a unit between iterations, and `delay(...)`s block the entire loop and affects timing between loops.
+  Without the button and LED code, we only would have a delay of 250ms between loops, but with the button pressed, we stack another 1000ms delay on top of that, which throws off the LED timing.
 </details>
+
+### The Fix
+
+There are a few ways to solve this (on a beefier processor, you might be able to use threading, what that's not available on all microcontrollers).
+Here, we'll solve this by eliminating delays, instead using a clock function (`millis()`, which returns the number of milliseconds since the program started) to check when some time has passed.
+
+```cpp
+int ledOffTime = 0;  // millis() at which to turn off the LED
+int ledResetTime = 0;  // earliest millis() at which the LED can blink again
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  
+  // your LED ring code here
+  
+  if (millis() >= ledOffTime) {
+    digitalWrite(kLedPin, LOW);
+  }
+  if (millis() >= ledResetTime) {  
+    if (!digitalRead(kButtonPin)) {
+      digitalWrite(kLedPin, HIGH);
+      ledOffTime = millis() + 500;
+      ledResetTime = millis() + 1000;
+    }
+  }
+}
+```
+
+We now save the time the LED should turn off in `ledOffTime`, and the time to check for the button press in `ledResetTime`.
+Instead of a delay, each loop iteration checks if the required time has elapsed, and if so, does the actions.
+If you hold the button down, it should blink.
+
+However, if you click the button, you may notice that the LED may drop clicks.
+This is because there's still a 250ms delay in the LED ring code, and if the button is pressed during that time, it's never detected.
+
+### Now you try!
+
+Let's fix that: rewrite the LED ring code in the above style, and make it so that button presses are consistently detected.
+
+<details><summary><b>Solution</b> (try it on your own first!)</summary>
+
+  For this, we've added a ringUpdateTime, which is the next `millis()` at which the ring should update.
+  On each iteration, this advances by 250ms.
+
+  ```cpp
+  int offset = 0;
+  int ringUpdateTime = 0;
+  
+  int ledOffTime = 0;  // millis() at which to turn off the LED
+  int ledResetTime = 0;  // earliest millis() at which the LED can blink again
+  
+  void loop() {
+    // put your main code here, to run repeatedly:
+    if (millis() >= ringUpdateTime) {
+      for (int i=0; i<kNeopixelCount; i++) {
+        int index = (i + offset) % 6;
+        if (index % 6 == 0) {
+          LedRing.setPixelColor(i, LedRing.Color(255, 0, 0));
+        } else if (index == 1) {
+          LedRing.setPixelColor(i, LedRing.Color(255, 255, 0));
+        } else if (index == 2) {
+          LedRing.setPixelColor(i, LedRing.Color(0, 255, 0));
+        } else if (index == 3) {
+          LedRing.setPixelColor(i, LedRing.Color(0, 255, 255));
+        } else if (index == 4) {
+          LedRing.setPixelColor(i, LedRing.Color(0, 0, 255));
+        } else if (index == 5) {
+          LedRing.setPixelColor(i, LedRing.Color(255, 0, 255));
+        }
+      }
+      offset++;
+      LedRing.show();
+  
+      ringUpdateTime = millis() + 250;
+    }
+    
+    if (millis() >= ledOffTime) {
+      digitalWrite(kLedPin, LOW);
+    }
+    if (millis() >= ledResetTime) {  
+      if (!digitalRead(kButtonPin)) {
+        digitalWrite(kLedPin, HIGH);
+        ledOffTime = millis() + 500;
+        ledResetTime = millis() + 1000;
+      }
+    }
+    
+    delay(5);  // needed so simulator doesn't lag
+  }
+  ```
+
+  We've added a `delay(5)` in every loop so the simulator doesn't get overloaded with constantly processing.
+  On a real device, this wouldn't be necessary
+</details>
+
+One thing that we didn't address here, but you should be aware of, is that `millis()` will eventually overflow.
+This probably won't happen for many days of a system being constantly up, but if you are designing a long-lived system, you may need to take steps to address overflow.
 
 And that's all, folks!
