@@ -102,7 +102,7 @@ Hopefully why you got the output you did is pretty intuitive, but let's continue
 
 Try writing code to calculate the sum of 1, 2, 3, and 4.
 
-<details><summary>Solution (try it on your own first!)</summary>
+<details><summary>**Solution** (try it on your own first!)</summary>
 
   ```cpp
   int main() {
@@ -166,7 +166,7 @@ This example is a bit more complex, so let's break it down.
 Try using loops and conditions to sum all the even numbers up to (but excluding) 1000.
 Don't even try to write out all the individual numbers!
 
-<details><summary>Solution (try it on your own first!)</summary>
+<details><summary>**Solution** (try it on your own first!)</summary>
 
   ```cpp
   int main() {
@@ -231,7 +231,7 @@ Like the others, let's also break down this example.
 Rewrite the sum-evens function into a function, and calculate the sum of all even numbers up to (but excluding) 10, 50, 100, and 1000, all within a single program run.
 Use functions and don't simply copy and paste, that's ugly! 
 
-<details><summary>Solution (try it on your own first!)</summary>
+<details><summary>**Solution** (try it on your own first!)</summary>
 
   ```cpp
   bool isEven(int x) {  // optional, you may have written x % 2 == 0 directly
