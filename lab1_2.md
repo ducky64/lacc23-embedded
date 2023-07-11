@@ -87,6 +87,9 @@ While this is still C++ code, this differs from the prior examples significantly
     Without doing so, we wouldn't be able to write a value on the pin, it would be input-only.
   - We also configure the serial port, which we'll use to print messages.
     Although the ESP32 doesn't have a screen, it does have a serial port (represented by the `Serial` object) that can be used to send data to a connected PC.
+    - Objects are the first use of a C++ construct, up until now we've only been using C features.
+      `Serial` is an object, and behaves similar to objects in Python where you can invoke functions on them, and they can have internal variables.
+      `Serial` is pre-defined for you by Arduino.
     - `Serial.begin(115200)` configures the baud rate (data rate, bits per second) to 115200, a common speed.
       Both the transmitter and receiver must agree on the data rate.
     - `Serial.println("Hello, ESP32!")` prints a message to the console.
@@ -107,11 +110,13 @@ Adjust the code so that the LED blinks once every two seconds, and at 75% on, 25
 
 <details><summary>Solution (try it on your own first!)</summary>
 
+  For this, we only need to change the delay that controls how long the LED is on.
+
   ```cpp
   void loop() {
     // put your main code here, to run repeatedly:
     digitalWrite(kLedPin, HIGH);
-    delay(1500);  // this is the only change you need to make
+    delay(1500);
     digitalWrite(kLedPin, LOW);
     delay(500);
   }
@@ -237,6 +242,15 @@ You'll need to install this in Wokwi:
 
 ![Wokwi Neopixel library](wokwi-library-neopixel.png)
 
+If you're curious, you can find the library repository and readme on GitHub at [https://github.com/adafruit/Adafruit_NeoPixel](https://github.com/adafruit/Adafruit_NeoPixel).
+We'll summarize what you need to know for the lab here, but if you were working on your own, the readme is a good place to start.
+
+While using libraries can save you a lot of time, **there may be obligations depending on the license.**
+**Open-source does not always mean 'free for any purpose'**, some licenses, for example, require you to license your code under the same terms (usually only applicable if you distribute the software, potentially including as part of a device).
+These are legally enforceable under (a somewhat creative use of) copyright law.
+If you're the kind of person who likes to tinker with stuff or benefits from right-to-repair, why not give others the same opportunity and open-source your work too!
+And if you're the kind of person who's going to champion planned obsolescence, well you too can reap the results of heaps of unnecessary e-waste and climate change.
+
 With the library imported, try running this example code:
 ```cpp
 const int kLedPin = 2;
@@ -245,7 +259,7 @@ const int kNeopixelPin = 12;
 
 #include <Adafruit_NeoPixel.h>
 const int kNeopixelCount = 16;
-Adafruit_NeoPixel LedRing(kNeopixelCount, kNeopixelPin, NEO_GRB);
+Adafruit_NeoPixel LedRing(kNeopixelCount, kNeopixelPin);
 
 void setup() {
   // put your setup code here, to run once:
@@ -268,9 +282,23 @@ void loop() {
 }
 ```
 
-Once again, there's a few new things in this example"
-- TODO WRITEME
-
+Once again, there's a few new things in this example:
+- We've already covered `#include` in the prior Intro to C++ section.
+- While we've covered object use above, here you have to create the `Adafruit_NeoPixel` object.
+  - The syntax for creating an object in C++ is the class name, variable name, and arguments.
+    `Adafruit_NeoPixel LedRing(kNeopixelCount, kNeopixelPin);` means to create an object of class `Adafruit_NeoPixel`, named `LedRing`, and with arguments `kNeopixelCount` and `kNeopixelPin`.
+  - When you're familiar with the base language, one trick to quickly getting started with a library is to look for an example and pattern-match.
+    Here, we've largely adapted the Adafruit NeoPixel example on the readme: [https://github.com/adafruit/Adafruit_NeoPixel#simple](https://github.com/adafruit/Adafruit_NeoPixel#simple)
+  - You can also look for the library interfaces.
+    In [Adafruit_NeoPixel.h](https://github.com/adafruit/Adafruit_NeoPixel/blob/ca89075cc5091a06ac5e5f162a467b877f95f00c/Adafruit_NeoPixel.h#L219), the object constructor is defined as `Adafruit_NeoPixel(uint16_t n, int16_t pin = 6,
+    neoPixelType type = NEO_GRB + NEO_KHZ800);`.
+    That is:
+    - The first argument `n` is the number of pixels.
+    - The second argument `pin` is the connected GPIO pin (defaults to `6` if unspecified).
+    - The last argument `type` defines the configuration of the chip (also with a default).
+- In `loop()`, we need to `setPixelColor` for each device in the chain.
+  The color is specified as an RGB value using `LedRing.Color(r, g, b)`, with each of R, G, B being a value between 0 (off) and 255 (full brightness). 
+- 
 
 ### Now you try!
 
@@ -286,13 +314,32 @@ Specifically, the ring should have these six colors, repeating every six LEDs:
 Because there are 16 LEDs which doesn't evenly divide into 6, there will be a discontinuity at the first LED.
 This is fine.
 
+Write your code in a way that's robust to different `kNeopixelCount`.
+While there's many ways to implement this, you might consider using the modulo operator `%` to determine where in the sequence of 6 colors a particular pixel is at.
 
 <details><summary>Solution (try it on your own first!)</summary>
 
   ```cpp
   void loop() {
     // put your main code here, to run repeatedly:
-
+    for (int i=0; i<kNeopixelCount; i++) {
+      int index = i % 6;
+      if (index == 0) {
+        LedRing.setPixelColor(i, LedRing.Color(255, 0, 0));
+      } else if (index == 1) {
+        LedRing.setPixelColor(i, LedRing.Color(255, 255, 0));
+      } else if (index == 2) {
+        LedRing.setPixelColor(i, LedRing.Color(0, 255, 0));
+      } else if (index == 3) {
+        LedRing.setPixelColor(i, LedRing.Color(0, 255, 255));
+      } else if (index == 4) {
+        LedRing.setPixelColor(i, LedRing.Color(0, 0, 255));
+      } else if (index == 5) {
+        LedRing.setPixelColor(i, LedRing.Color(255, 0, 255));
+      }
+    }
+    LedRing.show();
+    delay(100);
   }
   ```
 </details>
@@ -305,12 +352,36 @@ If you want to save state between loops, you can declare a variable outside `loo
 
 <details><summary>Solution (try it on your own first!)</summary>
 
+  For this, we just added an offset to the index, which increments between each loop.
+
   ```cpp
+  int offset = 0;
+  
   void loop() {
     // put your main code here, to run repeatedly:
-
+    for (int i=0; i<kNeopixelCount; i++) {
+      int index = (i + offset) % 6;
+      if (index % 6 == 0) {
+        LedRing.setPixelColor(i, LedRing.Color(255, 0, 0));
+      } else if (index == 1) {
+        LedRing.setPixelColor(i, LedRing.Color(255, 255, 0));
+      } else if (index == 2) {
+        LedRing.setPixelColor(i, LedRing.Color(0, 255, 0));
+      } else if (index == 3) {
+        LedRing.setPixelColor(i, LedRing.Color(0, 255, 255));
+      } else if (index == 4) {
+        LedRing.setPixelColor(i, LedRing.Color(0, 0, 255));
+      } else if (index == 5) {
+        LedRing.setPixelColor(i, LedRing.Color(255, 0, 255));
+      }
+    }
+    offset++;
+    LedRing.show();
+    delay(250);
   }
   ```
 </details>
 
-## Activity 1.4: Doing everything at once 
+
+## Extra for Experts: Doing everything at once 
+
