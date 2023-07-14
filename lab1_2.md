@@ -19,7 +19,8 @@ You don't need to sign up for an account for what we'll be doing today.
 While the first example for C++ on a PC was printing "Hello, world!" to the console, embedded devices often lack a screen.
 Instead, the first program is commonly to blink an LED.
 
-Like with Hello, world!, we'll start you off with example code: [start with this Wokwi project](https://wokwi.com/projects/369909925978652673), which includes a circuit and example code.  
+Like with Hello, world!, we'll provide a base to build on.
+**[Start with this linked Wokwi project](https://wokwi.com/projects/369909925978652673), which includes a circuit and example code.**  
 ![Wokwi interface](wokwi_intro.png)
 
 Let's go over the circuit first:  
@@ -28,16 +29,27 @@ Let's go over the circuit first:
   - Think of a microcontroller as a low-end computer on a chip: it has a CPU, memory, and storage.
   - It also has pins which are controlled by the processor.
     These have a variety of capabilities, but the most basic is digital GPIO (general purpose input / output).
-    - On the output side, you can write a 0 or 1 to the pin from software, which will set the voltage on the pin to ground (0v) or the positive supply (3.3v).
-    - On the input side, you can read the digital voltage on the pin, approximated to either 0 (if it's much closer to 0v) or 1 (if it's much closer to 3.3v).
 - One of these GPIO pins (D2 in this case) is connected to an LED and resistor.
-  - LEDs light up when there is a current through them.
-  - When the GPIO is set to 0, 0v will be on the pin, and there will be a 0v difference across the LED, which will not induce current flow and will not light up the LED.
-  - When the GPIO is set to 1, 3.3v will be on the pin, and there will be a 3.3v difference across the LED, which will induce a current flow across the LED and lights it up.
-  - The resistor is there to protect the LED.
+  - LEDs light up when power is applied, and the resistor limits the power to reasonable level to avoid component damage.
+  - Roughly speaking for this circuit, when the GPIO is set to `1` or `HIGH`, the pin provides power to the LED.
+    When the GPIO is set to `0` or `LOW`, no power is applied to the LED.
+
+<details><summary>A more detailed but accurate explanation of the circuit</summary>
+
+  - GPIOs actually function by working with voltages on the pin.
+    - On the output side, writing a `0` or `1` to the pin sets the voltage to ground (0v) or the positive supply (3.3v).
+    - On the input side, the voltage can be read from the pin, approximated to either 0 (if it's much closer to 0v) or 1 (if it's much closer to 3.3v).
+  - Pins may have other functions too, including analog (reading or writing a voltage as a more continuous value, for example 0 to 3.3v in 1024 equal steps) or digital communication protocols. 
+
+  - LEDs light up when a current flows through them.
+    The voltage between a LED's terminals induces this current to flow.
+    - When the GPIO is set to `1`, 0v is on the pin, and there is 0v difference across the LED (to ground).
+      No current flows, LED does not light up.
+    - When the GPIO is set to `0`, 3.3v is on the pin, and there is 3.3v difference across the LED (to ground).
+      This induces current to flow across the LED, and it lights up.
+  - The resistor limits current across the LED.
     LEDs can be damaged by excessive current (typically above 20mA for low-power LEDs), and the resistor limits the current to a reasonable amount.
-  - This is a very simplified, math-free explanation that's good enough for programming embedded systems.
-    Feel free to ask us if you want more details on the circuits side!
+</details>
 
 Let's move onto the code now:  
 ```cpp
@@ -61,11 +73,12 @@ void loop() {
 }
 ```
 
-Run it and see what happens!
+Run it (with the arrow button) and you should see the red LED blinking on and off!  
+![Wokwi add component](wokwi-add-button.png)  
 
 While this is still C++ code, this differs from the prior examples significantly.
 - There is no `main()` function, instead, there are two functions: `setup()` and `loop()`.
-  `setup()` is called once on startup, after which `loop()` is repeatedly called.
+  `setup()` is called once on startup, after which `loop()` is repeatedly called over and over again while the program is running.
   You can think of `main()` being defined in Arduino with something like:
   ```cpp
   int main() {
@@ -83,12 +96,11 @@ While this is still C++ code, this differs from the prior examples significantly
   - In other code, you may see other ways to define pins, one common one being `#define LED_PIN 2`.
     Our `const int` style uses a generally cleaner mechanism, but these are (in most cases) equivalent.
 - `setup()` is commonly used to configure hardware.
-  - Here, we first configure the GPIO as an output using `pinMode(...)`.
-    Without doing so, we wouldn't be able to write a value on the pin, it would be input-only.
+  - Here, we first configure the GPIO as an output using `pinMode(...)` so it can drive the LED.
   - We also configure the serial port, which we'll use to print messages.
     Although the ESP32 doesn't have a screen, it does have a serial port (represented by the `Serial` object) that can be used to send data to a connected PC.
     - Objects are the first use of a C++ construct, up until now we've only been using C features.
-      `Serial` is an object, and behaves similar to objects in Python where you can invoke functions on them, and they can have internal variables.
+      `Serial` is an object, and behaves similar to objects in Python where you can call functions on them (using the dot syntax, same as Python), and they can have internal variables.
       `Serial` is pre-defined for you by Arduino.
     - `Serial.begin(115200)` configures the baud rate (data rate, bits per second) to 115200, a common speed.
       Both the transmitter and receiver must agree on the data rate.
@@ -102,11 +114,22 @@ While this is still C++ code, this differs from the prior examples significantly
   - `delay(500)` pauses the program for 500 milliseconds (0.5 seconds).
   - `digitalWrite(kLedPin, LOW)` sets the pin voltage low, turning off the LED.
   - There's one more delay, then this all repeats with the next `loop()`.
-  
+- Arduino provides a lot of functionality, and an overview reference is available here: [https://www.arduino.cc/reference/en/](https://www.arduino.cc/reference/en/)
+
+<details><summary>A more detailed but accurate explanation of pin directionality</summary>
+
+  - Internally, GPIOs have an output driver (which drives the pin voltage to either ground or positive supply) that can be turned off.
+  - When turned off (in `INPUT` mode), `digitalWrite` has no effect.
+    This is sometimes called _tristating_, referring to the third state (`0`, `1`, and undriven or `Z`).
+    - `Z` means hi-Z, or high-impedance (high-resistance) as a disconnected pin in concept has infinite resistance.
+  - When turned on, (in `OUTPUT` mode), the output driver is enabled, and the pin state is determined by `digitalWrite`.
+  - Pins can be read in output mode, this (probably) samples the voltage on the pin, which is usually the result of `digitalWrite`.
+</details>
+
 
 ### Now you try!
 
-Adjust the code so that the LED blinks once every two seconds, and at 75% on, 25% off.
+Adjust the code so that the LED blinks once every two seconds, and with 75% of the time on and 25% of the time off.
 
 <details><summary><b>Solution</b> (try it on your own first!)</summary>
 
@@ -131,27 +154,22 @@ While blinking LEDs are fun, sensing and reading inputs are typically critical p
 Start by adding a button to your circuit.
 Click the + button to add a component (if the simulation is running, you'll need to stop it first to see the + button):  
 ![Wokwi add component](wokwi-add-button.png)  
+- If you see this, you need to stop the simulation first:  
+  ![Wokwi simulator running](wokwi-stop-button.png)  
+
 Then, select "pushbutton" from the list:  
 ![Wokwi pushbutton](wokwi-pushbutton.png)  
 The component will appear on the circuit, drag it to somewhere reasonable on the left of the ESP32:  
 ![Button placed](wokwi-button-disconnected.png)  
 Wire the button up to the ESP32:
-- Click a pin to start a wire, then click the other pin to connect them.
+- Click a pin to start a wire, then click the other pin to connect them.  
+  ![Button pin](wokwi-button-pin.png)
   - While wiring, you can click anywhere to insert a bend in the wire.
-- Connect the top pin of the button to any IO on the ESP32 (we used D13 in the example).
-- Connect the bottom pin of the button to ground.
+- Connect the top pin of the button to D13 on the ESP32.
+- Connect the bottom pin of the button to GND on the ESP32.
 
 The connected circuit might look like this:  
 ![Button connected](wokwi-button-connected.png)
- 
-What's going on here?
-- The switch is a component that connects (shorts) its pins when the button is pressed.
-- When the switch is pressed, the ESP32 pin is connected to ground (0v), and the voltage reads as a digital 0.
-- When the switch is not pressed, the ESP32 pin is floating (disconnected) and indeterminate unless driven by something else.
-  From software, we can configure the pin as an input with pullup resistor, which weakly pulls up the pin to the power line and reads as a digital 1.
-  - Because it's a weak pullup, the switch's connection to ground 'wins' when the button is pressed.
-- This the conventional way to connect switches, with the pin weakly pulled high when the button is not pressed, and forced to ground when the button is pressed.
-  - You could do the opposite, but it's less common.
 
 With the circuit built, let's write some code to read the button.
 ```cpp
@@ -174,11 +192,23 @@ void loop() {
 }
 ```
 
-Before you simulate it, what do you think will happen?
-Hopefully this new code is pretty straightforward, though it also helps to know:
-- In Arduino, `HIGH` is equivalent to `1`, and `LOW` is equivalent to `0`.
+What's going on here?
+- The switch is a component that connects (shorts) its pins when the button is pressed.
+  - When the button is pressed, the GPIO reads a `0` (`LOW`) since the button is connected to GND.
+  - We need to configure the pin as `INPUT_PULLUP` to provide a default value of `1` (`HIGH`) when the button is not pressed. 
 - The `!` operator inverts the value of the expression: `0` becomes `1` and `1` becomes `0`.
+  So the conditional is `true` when the button pin reads `0` (`LOW`), or pressed.
 
+<details><summary>A more detailed but accurate explanation of the switch</summary>
+
+  - When the switch is not pressed, the ESP32 pin is floating (disconnected) and indeterminate unless driven by something else.
+    From software, we can configure the pin as `INPUT_PULLUP` which enables a pull-up resistor on the GPIO pin that weakly pulls up the pin to the positive supply and reads as a digital 1.
+    - Because it's a weak pullup, the switch's connection to ground 'wins' when the button is pressed.
+  - This the conventional way to connect switches, with the pin weakly pulled high when the button is not pressed, and forced to ground when the button is pressed.
+    - You could do the opposite, but it's less common.
+</details>
+
+Before you simulate it, what do you think will happen?
 
 ### Now you try!
 
@@ -214,9 +244,12 @@ Even better, these can be chained, allowing arbitrarily ridiculous numbers of LE
 
 > Naming note: NeoPixel is the Adafruit brand name for these devices, but informally commonly refers to a wide variety of similar devices of daisy-chainable RGB LEDs. 
 
-> A digital signal is a time-varying waveform that can be used to convey data.
-> NeoPixels define a protocol where the red, green, and blue intensities for each device are encoded into a series of digital 1s and 0s with specified timing.
-> The details aren't relevant for this lab, but you can find more online if you're curious.
+<details><summary>A more detailed explanation of NeoPixels and signals</summary>
+
+A digital signal is a time-varying waveform that can be used to convey data.
+NeoPixels define a protocol where the red, green, and blue intensities for each device are encoded into a series of digital `1`s and `0`s with specified timing.
+The details aren't relevant for this lab, but you can find more online if you're curious.
+</details>
 
 Add the NeoPixel ring, just like you did with the switch:  
 ![Wokwi LED ring component](wokwi-ledring.png)  
@@ -242,14 +275,14 @@ You'll need to install this in Wokwi:
 
 ![Wokwi Neopixel library](wokwi-library-neopixel.png)
 
-If you're curious, you can find the library repository and readme on GitHub at [https://github.com/adafruit/Adafruit_NeoPixel](https://github.com/adafruit/Adafruit_NeoPixel).
-We'll summarize what you need to know for the lab here, but if you were working on your own, the readme is a good place to start.
+> If you're curious, you can find the library repository and readme on GitHub at [https://github.com/adafruit/Adafruit_NeoPixel](https://github.com/adafruit/Adafruit_NeoPixel).
+> We'll summarize what you need to know for the lab here, but if you were working on your own, the readme is a good place to start.
 
-While using libraries can save you a lot of time, **there may be obligations depending on the license.**
-**Open-source does not always mean 'free for any purpose'**, some licenses, for example, require you to license your code under the same terms (usually only applicable if you distribute the software, potentially including as part of a device).
-These are legally enforceable under (a somewhat creative use of) copyright law.
-If you're the kind of person who likes to tinker with stuff or benefits from right-to-repair, why not give others the same opportunity and open-source your work too!
-And if you're the kind of person who's going to champion planned obsolescence, well you too can reap the results of heaps of unnecessary e-waste and climate change.
+> While using libraries can save you a lot of time, **there may be obligations depending on the license.**
+> **Open-source does not always mean 'free for any purpose'**, some licenses, for example, require you to license your code under the same terms (usually only applicable if you distribute the software, potentially including as part of a device).
+> These are legally enforceable under (a somewhat creative use of) copyright law.
+> If you're the kind of person who likes to tinker with stuff or benefits from right-to-repair, why not give others the same opportunity and open-source your work too!
+> And if you're the kind of person who's going to champion planned obsolescence, well you too can reap the results of heaps of unnecessary e-waste and climate change.
 
 With the library imported, try running this example code:
 ```cpp
@@ -286,9 +319,16 @@ Once again, there's a few new things in this example:
 - We've already covered `#include` in the prior Intro to C++ section.
 - While we've covered object use above, here you have to create the `Adafruit_NeoPixel` object.
   - The syntax for creating an object in C++ is the class name, variable name, and arguments.  
-    `Adafruit_NeoPixel LedRing(kNeopixelCount, kNeopixelPin);` means to create an object of class `Adafruit_NeoPixel`, named `LedRing`, and with arguments `kNeopixelCount` and `kNeopixelPin`.
+    `Adafruit_NeoPixel LedRing(kNeopixelCount, kNeopixelPin);` means to create an object of class `Adafruit_NeoPixel`, named `LedRing`, and with arguments `kNeopixelCount` and `kNeopixelPin`.  
+    <details><summary>The Python equivalent would be...</summary>
+
+      ```python
+      LedRing = Adafruit_NeoPixel(kNeopixelCount, kNeopixelPin)
+      ```
+    </details>
   - When you're familiar with the base language, one trick to quickly getting started with a library is to look for an example and pattern-match.
-    Here, we've largely adapted the Adafruit NeoPixel example on the readme: [https://github.com/adafruit/Adafruit_NeoPixel#simple](https://github.com/adafruit/Adafruit_NeoPixel#simple)
+    Here, we've largely adapted the Adafruit NeoPixel example on the readme, [https://github.com/adafruit/Adafruit_NeoPixel#simple](https://github.com/adafruit/Adafruit_NeoPixel#simple):
+    ![Adafruit NeoPixel example snippet](adafruit-npx-example.png)
   - You can also look for the library interfaces.
     In [Adafruit_NeoPixel.h](https://github.com/adafruit/Adafruit_NeoPixel/blob/ca89075cc5091a06ac5e5f162a467b877f95f00c/Adafruit_NeoPixel.h#L219), the object constructor is defined as  
     `Adafruit_NeoPixel(uint16_t n, int16_t pin = 6,
@@ -299,7 +339,6 @@ Once again, there's a few new things in this example:
     - The last argument `type` defines the configuration of the chip (also with a default).
 - In `loop()`, we need to `setPixelColor` for each device in the chain.
   The color is specified as an RGB value using `LedRing.Color(r, g, b)`, with each of R, G, B being a value between 0 (off) and 255 (full brightness). 
-- 
 
 ### Now you try!
 
@@ -317,6 +356,7 @@ This is fine.
 
 Write your code in a way that's robust to different `kNeopixelCount`.
 While there's many ways to implement this, you might consider using the modulo operator `%` to determine where in the sequence of 6 colors a particular pixel is at.
+For example, on LED 0, `0 % 6 = 0` for the first color, while on LED 6, `6 % 6 = 0` for the first color again after rolling around.
 
 <details><summary><b>Solution</b> (try it on your own first!)</summary>
 

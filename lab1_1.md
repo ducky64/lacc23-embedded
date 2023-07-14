@@ -41,11 +41,19 @@ int main() {
 }
 ```
 
+<details><summary>This is roughly equivalent to this Python code</summary>
+
+  ```python
+  print(f"Hello, world!")
+  ```
+</details>
+
 If everything worked, you should see this output:  
 ![Hello World output](hello_world_console.png)
 
 Using the code above as an example, here's a few ways C++ differs from Python:
-- `#include` performs a similar function to Python's `import` (though the underlying mechanisms are very different). 
+- `#include` performs a similar function to Python's `import` (though the underlying mechanisms are very different).
+  - `stdio.h` defines `printf`. 
 - C++ functions are defined with their return type (here, `int`), whereas Python functions are declared using `def`.
 - C++ code starts in the `main()` function, instead of starting at the top of the file.
   All code must be in functions. 
@@ -74,6 +82,25 @@ int main() {
 }
 ```
 
+<details><summary>This is roughly equivalent to this Python code</summary>
+
+  Using format syntax, structurally closer to the C++ code above
+  ```python
+  x = 1
+  print("x = {0}".format(x))
+  x = x + 2
+  print("x = {0}".format(x))
+  ```
+
+  Using f-string syntax
+  ```python
+  x = 1
+  print(f"x = {x}")
+  x = x + 2
+  print(f"x = {x}")
+  ```
+</details>
+
 <details><summary>If everything worked, this is the expected output</summary>
 
   ```
@@ -100,7 +127,7 @@ Hopefully why you got the output you did is pretty intuitive, but let's continue
 
 ### Now you try!
 
-Try writing code to calculate the sum of 1, 2, 3, and 4.
+Try modifying the above code to calculate the sum of 1, 2, 3, and 4.
 
 <details><summary><b>Solution</b> (try it on your own first!)</summary>
 
@@ -124,7 +151,7 @@ While code that runs line-after-line is straightforward, real power comes from t
 int main() {
   for (int i=0; i<7; i++) {
     // note: the modulo operator % returns the remainder of division
-    // fopr example, 4 % 2 = 0, and 5 % 2 = 1
+    // for example, 4 % 2 = 0, and 5 % 2 = 1
     if (i % 2 == 0) {
       printf("i = %i is even\n", i);
     } else {
@@ -133,6 +160,17 @@ int main() {
   }
 }
 ```
+
+<details><summary>This is roughly equivalent to this Python code</summary>
+
+  ```python
+  for i in range(0, 7):
+    if i % 2 == 0:
+      print(f"i = {i} is even")
+    else:
+      print(f"i = {i} is odd")
+  ```
+</details>
 
 <details><summary>If everything worked, this is the expected output</summary>
 
@@ -173,7 +211,7 @@ Don't even try to write out all the individual numbers!
     int sum = 0;
     for (int i=0; i<1000; i++) {
       if (i % 2 == 0) {
-        sum += i;
+        sum = sum + i;
       }
     }
     printf("The sum is = %i\n", sum);
@@ -205,6 +243,20 @@ int main() {
 }
 ```
 
+<details><summary>This is roughly equivalent to this Python code</summary>
+
+  ```python
+  def isEven(x):
+    return x % 2 == 0
+
+  for i in range(0, 7):
+    if isEven(i):
+      print(f"i = {i} is even")
+    else:
+      print(f"i = {i} is odd")
+  ```
+</details>
+
 <details><summary>If everything worked, this is the expected output</summary>
 
   (this is the exact same as the prior activity)
@@ -228,7 +280,7 @@ Like the others, let's also break down this example.
 
 ### Now you try!
 
-Rewrite the sum-evens function into a function, and calculate the sum of all even numbers up to (but excluding) 10, 50, 100, and 1000, all within a single program run.
+Break out the sum-evens from `main` into a function, and calculate the sum of all even numbers up to (but excluding) 10, 50, 100, and 1000, all within a single program run.
 Use functions and don't simply copy and paste, that's ugly! 
 
 <details><summary><b>Solution</b> (try it on your own first!)</summary>
@@ -242,7 +294,7 @@ Use functions and don't simply copy and paste, that's ugly!
     int sum = 0;
     for (int i=0; i<limit; i++) {
       if (i % 2 == 0) {
-        sum += i;
+        sum = sum + i;
       }
     }
     return sum;
