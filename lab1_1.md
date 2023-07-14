@@ -112,7 +112,7 @@ int main() {
 Hopefully why you got the output you did is pretty intuitive, but let's continue to break down where C++ differs from Python. 
 - C++ variables must be declared with their type (here, `int`), while Python variables do not need to be declared and are implicitly created on assignment.
   - `int` means a signed (positive or negative) integer type (whole number, positive or negative), with size platform-dependent.
-    In our system, `int` is a 32-bit (4-byte) integer, with an allowable range from -2,147,483,648 = $-2^31$ to +2,147,483,647 = $+2^31 - 1$ ($2^32$ distinct values).
+    In our system, `int` is a 32-bit (4-byte) integer, with an allowable range from -2,147,483,648 = $-2^(31)$ to +2,147,483,647 = $+2^(31) - 1$ ($2^(32)$ distinct values).
   - `float` is a floating-point (decimal) type, more similar to how Python handles numbers.
     `float`s are more computationally expensive, especially on lower-end systems that lack dedicated floating-point hardware like lower-end microcontrollers.
   - `bool` is a boolean type, which can either be `true` or `false`.
@@ -197,6 +197,8 @@ This example is a bit more complex, so let's break it down.
     In the example, `i++` increments `i` by one after each iteration.
 - `if` blocks are pretty straightforward.
   Unlike Python, the condition must be in parentheses.
+- Remember that C++ blocks are defined by curly braces (`{` and `}`) unlike Python's indentation.
+  However, recommended stylistic practice (for readability) is to keep indentation consistent with code blocks.
 
 
 ### Now you try!
