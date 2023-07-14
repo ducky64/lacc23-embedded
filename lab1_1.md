@@ -41,7 +41,7 @@ int main() {
 }
 ```
 
-> <details><summary>This is roughly equivalent to this Python code...</summary>
+> <details><summary>🐍 This is roughly equivalent to this Python code...</summary>
 > 
 >   ```python
 >   print(f"Hello, world!")
@@ -82,7 +82,7 @@ int main() {
 }
 ```
 
-> <details><summary>This is roughly equivalent to this Python code...</summary>
+> <details><summary>🐍 This is roughly equivalent to this Python code...</summary>
 > 
 >   Using format syntax, structurally closer to the C++ code above
 >   ```python
@@ -161,7 +161,7 @@ int main() {
 }
 ```
 
-> <details><summary>This is roughly equivalent to this Python code...</summary>
+> <details><summary>🐍 This is roughly equivalent to this Python code...</summary>
 > 
 >   ```python
 >   for i in range(0, 7):
@@ -243,10 +243,10 @@ int main() {
 }
 ```
 
-> <details><summary>This is roughly equivalent to this Python code...</summary>
+> <details><summary>🐍 This is roughly equivalent to this Python code...</summary>
 > 
 >   ```python
->   def isEven(x):
+>   def isEven(x):  # note that unlike C++, Python doesn't require a declared return type
 >     return x % 2 == 0
 > 
 >   for i in range(0, 7):
@@ -281,7 +281,9 @@ Like the others, let's also break down this example.
 ### Now you try!
 
 Break out the sum-evens from `main` into a function, and calculate the sum of all even numbers up to (but excluding) 10, 50, 100, and 1000, all within a single program run.
-Use functions and don't simply copy and paste, that's ugly! 
+Don't just copy-paste everything four times!
+
+Consider starting from the solution in 1.3, and remember that you can call other function from with your own functions. 
 
 <details><summary><span style="color:DimGrey"><b>Solution</b> (try it on your own first!)</span></summary>
 
@@ -293,7 +295,7 @@ Use functions and don't simply copy and paste, that's ugly!
   int sumEvens(int limit) {
     int sum = 0;
     for (int i=0; i<limit; i++) {
-      if (i % 2 == 0) {
+      if (isEven(i)) {
         sum = sum + i;
       }
     }

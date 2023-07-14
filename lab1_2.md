@@ -34,7 +34,7 @@ Let's go over the circuit first:
   - Roughly speaking for this circuit, when the GPIO is set to `1` or `HIGH`, the pin provides power to the LED.
     When the GPIO is set to `0` or `LOW`, no power is applied to the LED.
 
-> <details><summary>A more detailed but accurate explanation of the circuit...</summary>
+> <details><summary>⚡ A more detailed but accurate explanation of the circuit...</summary>
 > 
 >   - GPIOs actually function by working with voltages on the pin.
 >     - On the output side, writing a `0` or `1` to the pin sets the voltage to ground (0v) or the positive supply (3.3v).
@@ -116,7 +116,7 @@ While this is still C++ code, this differs from the prior examples significantly
   - There's one more delay, then this all repeats with the next `loop()`.
 - Arduino provides a lot of functionality, and an overview reference is available here: [https://www.arduino.cc/reference/en/](https://www.arduino.cc/reference/en/)
 
-> <details><summary>A more detailed but accurate explanation of pin directionality...</summary>
+> <details><summary>⚡ A more detailed but accurate explanation of pin directionality...</summary>
 > 
 >   - Internally, GPIOs have an output driver (which drives the pin voltage to either ground or positive supply) that can be turned off.
 >   - When turned off (in `INPUT` mode), `digitalWrite` has no effect.
@@ -199,7 +199,7 @@ What's going on here?
 - The `!` operator inverts the value of the expression: `0` becomes `1` and `1` becomes `0`.
   So the conditional is `true` when the button pin reads `0` (`LOW`), or pressed.
 
-> <details><summary>A more detailed but accurate explanation of the switch...</summary>
+> <details><summary>⚡ A more detailed but accurate explanation of the switch...</summary>
 > 
 >   - When the switch is not pressed, the ESP32 pin is floating (disconnected) and indeterminate unless driven by something else.
 >     From software, we can configure the pin as `INPUT_PULLUP` which enables a pull-up resistor on the GPIO pin that weakly pulls up the pin to the positive supply and reads as a digital 1.
@@ -244,7 +244,7 @@ Even better, these can be chained, allowing arbitrarily ridiculous numbers of LE
 
 > Naming note: NeoPixel is the Adafruit brand name for these devices, but informally commonly refers to a wide variety of similar devices of daisy-chainable RGB LEDs. 
 
-> <details><summary>A more detailed explanation of NeoPixels and signals...</summary>
+> <details><summary>⚡ A more detailed explanation of NeoPixels and signals...</summary>
 > 
 > A digital signal is a time-varying waveform that can be used to convey data.
 > NeoPixels define a protocol where the red, green, and blue intensities for each device are encoded into a series of digital `1`s and `0`s with specified timing.
@@ -320,7 +320,7 @@ Once again, there's a few new things in this example:
 - While we've covered object use above, here you have to create the `Adafruit_NeoPixel` object.
   - The syntax for creating an object in C++ is the class name, variable name, and arguments.  
     `Adafruit_NeoPixel LedRing(kNeopixelCount, kNeopixelPin);` means to create an object of class `Adafruit_NeoPixel`, named `LedRing`, and with arguments `kNeopixelCount` and `kNeopixelPin`.  
-    > <details><summary>The Python equivalent would be...</summary>
+    > <details><summary>🐍 The Python equivalent would be...</summary>
     > 
     >   ```python
     >   LedRing = Adafruit_NeoPixel(kNeopixelCount, kNeopixelPin)
