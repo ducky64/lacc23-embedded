@@ -60,6 +60,8 @@ Using the code above as an example, here's a few ways C++ differs from Python:
 - C++ uses curly braces (`{` and `}`) to define blocks of code like the function body, instead of indentation.
 - C++ statements must end with a semicolon (`;`), whereas Python infers the end of a statement from a newline.
 - `printf` does not automatically add a newline, so we must do so explicitly with `\n`.
+  - `\n` is interpreted into a newline.
+    Formally, these backslash (`\ `) sequences are called escape sequences - sequences of characters which have a different meaning than their literal characters.
 
 But, conceptually, C++ is also very similar to Python:
 - Functions are called using parentheses (`(` and `)`) and take arguments (here, we pass the `"Hello, world!"` string to `printf`).
