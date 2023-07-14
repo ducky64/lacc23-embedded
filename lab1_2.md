@@ -91,7 +91,7 @@ While this is still C++ code, this differs from the prior examples significantly
   - You might not have seen the `while` loop before: it keeps executing the loop while the condition is true.
     Here, the condition is always true, so it will loop forever.
     This is common in embedded systems, which often run some continuous function, instead of once-and-done.
-- It's often good practice to define give a name to constants, like pin numbers.
+- It's often good practice to give a name to constants, like pin numbers, instead of dropping a bare "magic number" into your code.
   - Here, we define `kLedPin` to be 2, which is the pin we've connected the LED to.
   - In other code, you may see other ways to define pins, one common one being `#define LED_PIN 2`.
     Our `const int` style uses a generally cleaner mechanism, but these are (in most cases) equivalent.
