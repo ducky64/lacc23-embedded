@@ -104,8 +104,8 @@ int main() {
 > <details><summary>If everything worked, this is the expected output...</summary>
 > 
 >   ```
->   x=1
->   x=3
+>   x = 1
+>   x = 3
 >   ```
 > </details>
 
