@@ -338,7 +338,8 @@ Once again, there's a few new things in this example:
     - The second argument `pin` is the connected GPIO pin (defaults to `6` if unspecified).
     - The last argument `type` defines the configuration of the chip (also with a default).
 - In `loop()`, we need to `setPixelColor` for each device in the chain.
-  The color is specified as an RGB value using `LedRing.Color(r, g, b)`, with each of R, G, B being a value between 0 (off) and 255 (full brightness). 
+  The first argument is the index of the LED (its position in the chain).
+  The second argument is the color specified as an RGB value using `LedRing.Color(r, g, b)`, with each of R, G, B being a value between 0 (off) and 255 (full brightness). 
 
 ### Now you try!
 
@@ -357,6 +358,8 @@ This is fine.
 Write your code in a way that's robust to different `kNeopixelCount`.
 While there's many ways to implement this, you might consider using the modulo operator `%` to determine where in the sequence of 6 colors a particular pixel is at.
 For example, on LED 0, `0 % 6 = 0` for the first color, while on LED 6, `6 % 6 = 0` for the first color again after rolling around.
+
+It's totally fine to use 6 `if` / `else if` / `else` blocks here!
 
 <details><summary><span style="color:DimGrey"><b>Solution</b> (try it on your own first!)</span></summary>
 
@@ -451,12 +454,44 @@ Why do you think this is happening?
 <details><summary><b>Explanation</b> (think about it your own first!)</summary>
 
   The problem is that `loop()` runs as a unit between iterations, and `delay(...)`s block the entire loop and affects timing between loops.
-  Without the button and LED code, we only would have a delay of 250ms between loops, but with the button pressed, we stack another 1000ms delay on top of that, which throws off the LED timing.
+  Without the button and LED code, we only would have a delay of 250ms between loops, but with the button pressed, we stack another 1000ms delay on top of that, which throws off the LED ring timing.
+
+  With the button not pressed, each loop looks like this:
+  ```cpp
+  void loop() {
+    // put your main code here, to run repeatedly:
+    
+    // your LED ring code here
+    delay(250);
+    
+    // button not pressed, the if conditional doesn't run
+  }
+  ```
+  and the LED ring animation runs at the expected timing.
+
+  However, with the button pressed, each loop looks like:
+  ```cpp
+  void loop() {
+    // put your main code here, to run repeatedly:
+    
+    // your LED ring code here
+    delay(250);
+    
+    // button is pressed, the if conditional runs 
+    digitalWrite(kLedPin, HIGH);
+    delay(500);
+    digitalWrite(kLedPin, LOW);
+    delay(500);
+  }
+  ```
+  and now there's a total 1250ms delay between loops.
+  Since the LED ring update runs once per loop, having the button pressed changes the timing between loops and the ring animation speed.
+
 </details>
 
 ### The Fix
 
-There are a few ways to solve this (on a beefier processor, you might be able to use threading, what that's not available on all microcontrollers).
+There are a few ways to solve this (on a beefier processor, you might be able to use threading, which is not available on all microcontrollers).
 Here, we'll solve this by eliminating delays, instead using a clock function (`millis()`, which returns the number of milliseconds since the program started) to check when some time has passed.
 
 ```cpp
