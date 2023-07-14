@@ -43,9 +43,9 @@ Let's go over the circuit first:
 > 
 >   - LEDs light up when a current flows through them.
 >     The voltage between a LED's terminals induces this current to flow.
->     - When the GPIO is set to `1`, 0v is on the pin, and there is 0v difference across the LED (to ground).
+>     - When the GPIO is set to `0`, 0v is on the pin, and there is 0v difference across the LED (to ground).
 >       No current flows, LED does not light up.
->     - When the GPIO is set to `0`, 3.3v is on the pin, and there is 3.3v difference across the LED (to ground).
+>     - When the GPIO is set to `1`, 3.3v is on the pin, and there is 3.3v difference across the LED (to ground).
 >       This induces current to flow across the LED, and it lights up.
 >   - The resistor limits current across the LED.
 >     LEDs can be damaged by excessive current (typically above 20mA for low-power LEDs), and the resistor limits the current to a reasonable amount.
