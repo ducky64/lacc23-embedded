@@ -327,7 +327,7 @@ Once again, there's a few new things in this example:
     >   ```
     > </details>
   - When you're familiar with the base language, one trick to quickly getting started with a library is to look for an example and pattern-match.
-    Here, we've largely adapted the Adafruit NeoPixel example on the readme, [https://github.com/adafruit/Adafruit_NeoPixel#simple](https://github.com/adafruit/Adafruit_NeoPixel#simple):
+    Here, we've largely adapted the Adafruit NeoPixel example on the readme, [https://github.com/adafruit/Adafruit_NeoPixel#simple](https://github.com/adafruit/Adafruit_NeoPixel#simple):  
     ![Adafruit NeoPixel example snippet](adafruit-npx-example.png)
   - You can also look for the library interfaces.
     In [Adafruit_NeoPixel.h](https://github.com/adafruit/Adafruit_NeoPixel/blob/ca89075cc5091a06ac5e5f162a467b877f95f00c/Adafruit_NeoPixel.h#L219), the object constructor is defined as  
