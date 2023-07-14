@@ -41,12 +41,12 @@ int main() {
 }
 ```
 
-<details><summary>This is roughly equivalent to this Python code</summary>
-
-  ```python
-  print(f"Hello, world!")
-  ```
-</details>
+> <details><summary>This is roughly equivalent to this Python code...</summary>
+> 
+>   ```python
+>   print(f"Hello, world!")
+>   ```
+> </details>
 
 If everything worked, you should see this output:  
 ![Hello World output](hello_world_console.png)
@@ -82,32 +82,32 @@ int main() {
 }
 ```
 
-<details><summary>This is roughly equivalent to this Python code</summary>
+> <details><summary>This is roughly equivalent to this Python code...</summary>
+> 
+>   Using format syntax, structurally closer to the C++ code above
+>   ```python
+>   x = 1
+>   print("x = {0}".format(x))
+>   x = x + 2
+>   print("x = {0}".format(x))
+>   ```
+> 
+>   Using f-string syntax
+>   ```python
+>   x = 1
+>   print(f"x = {x}")
+>   x = x + 2
+>   print(f"x = {x}")
+>   ```
+> </details>
 
-  Using format syntax, structurally closer to the C++ code above
-  ```python
-  x = 1
-  print("x = {0}".format(x))
-  x = x + 2
-  print("x = {0}".format(x))
-  ```
-
-  Using f-string syntax
-  ```python
-  x = 1
-  print(f"x = {x}")
-  x = x + 2
-  print(f"x = {x}")
-  ```
-</details>
-
-<details><summary>If everything worked, this is the expected output</summary>
-
-  ```
-  x=1
-  x=3
-  ```
-</details>
+> <details><summary>If everything worked, this is the expected output...</summary>
+> 
+>   ```
+>   x=1
+>   x=3
+>   ```
+> </details>
 
 Hopefully why you got the output you did is pretty intuitive, but let's continue to break down where C++ differs from Python. 
 - C++ variables must be declared with their type (here, `int`), while Python variables do not need to be declared and are implicitly created on assignment.
@@ -161,29 +161,29 @@ int main() {
 }
 ```
 
-<details><summary>This is roughly equivalent to this Python code</summary>
+> <details><summary>This is roughly equivalent to this Python code...</summary>
+> 
+>   ```python
+>   for i in range(0, 7):
+>     if i % 2 == 0:
+>       print(f"i = {i} is even")
+>     else:
+>       print(f"i = {i} is odd")
+>   ```
+> </details>
 
-  ```python
-  for i in range(0, 7):
-    if i % 2 == 0:
-      print(f"i = {i} is even")
-    else:
-      print(f"i = {i} is odd")
-  ```
-</details>
-
-<details><summary>If everything worked, this is the expected output</summary>
-
-  ```
-  i = 0 is even
-  i = 1 is odd
-  i = 2 is even
-  i = 3 is odd
-  i = 4 is even
-  i = 5 is odd
-  i = 6 is even
-  ```
-</details>
+> <details><summary>If everything worked, this is the expected output...</summary>
+> 
+>   ```
+>   i = 0 is even
+>   i = 1 is odd
+>   i = 2 is even
+>   i = 3 is odd
+>   i = 4 is even
+>   i = 5 is odd
+>   i = 6 is even
+>   ```
+> </details>
 
 This example is a bit more complex, so let's break it down.
 - `for` loops are conceptually similar to Python, but syntactically very different.
@@ -243,33 +243,33 @@ int main() {
 }
 ```
 
-<details><summary>This is roughly equivalent to this Python code</summary>
+> <details><summary>This is roughly equivalent to this Python code...</summary>
+> 
+>   ```python
+>   def isEven(x):
+>     return x % 2 == 0
+> 
+>   for i in range(0, 7):
+>     if isEven(i):
+>       print(f"i = {i} is even")
+>     else:
+>       print(f"i = {i} is odd")
+>   ```
+> </details>
 
-  ```python
-  def isEven(x):
-    return x % 2 == 0
-
-  for i in range(0, 7):
-    if isEven(i):
-      print(f"i = {i} is even")
-    else:
-      print(f"i = {i} is odd")
-  ```
-</details>
-
-<details><summary>If everything worked, this is the expected output</summary>
-
-  (this is the exact same as the prior activity)
-  ```
-  i = 0 is even
-  i = 1 is odd
-  i = 2 is even
-  i = 3 is odd
-  i = 4 is even
-  i = 5 is odd
-  i = 6 is even
-  ```
-</details>
+> <details><summary>If everything worked, this is the expected output...</summary>
+> 
+>   (this is the exact same as the prior activity)
+>   ```
+>   i = 0 is even
+>   i = 1 is odd
+>   i = 2 is even
+>   i = 3 is odd
+>   i = 4 is even
+>   i = 5 is odd
+>   i = 6 is even
+>   ```
+> </details>
 
 Like the others, let's also break down this example.
 - Functions are defined by their return type, name, and arguments.

@@ -34,22 +34,22 @@ Let's go over the circuit first:
   - Roughly speaking for this circuit, when the GPIO is set to `1` or `HIGH`, the pin provides power to the LED.
     When the GPIO is set to `0` or `LOW`, no power is applied to the LED.
 
-<details><summary>A more detailed but accurate explanation of the circuit</summary>
-
-  - GPIOs actually function by working with voltages on the pin.
-    - On the output side, writing a `0` or `1` to the pin sets the voltage to ground (0v) or the positive supply (3.3v).
-    - On the input side, the voltage can be read from the pin, approximated to either 0 (if it's much closer to 0v) or 1 (if it's much closer to 3.3v).
-  - Pins may have other functions too, including analog (reading or writing a voltage as a more continuous value, for example 0 to 3.3v in 1024 equal steps) or digital communication protocols. 
-
-  - LEDs light up when a current flows through them.
-    The voltage between a LED's terminals induces this current to flow.
-    - When the GPIO is set to `1`, 0v is on the pin, and there is 0v difference across the LED (to ground).
-      No current flows, LED does not light up.
-    - When the GPIO is set to `0`, 3.3v is on the pin, and there is 3.3v difference across the LED (to ground).
-      This induces current to flow across the LED, and it lights up.
-  - The resistor limits current across the LED.
-    LEDs can be damaged by excessive current (typically above 20mA for low-power LEDs), and the resistor limits the current to a reasonable amount.
-</details>
+> <details><summary>A more detailed but accurate explanation of the circuit...</summary>
+> 
+>   - GPIOs actually function by working with voltages on the pin.
+>     - On the output side, writing a `0` or `1` to the pin sets the voltage to ground (0v) or the positive supply (3.3v).
+>     - On the input side, the voltage can be read from the pin, approximated to either 0 (if it's much closer to 0v) or 1 (if it's much closer to 3.3v).
+>   - Pins may have other functions too, including analog (reading or writing a voltage as a more continuous value, for example 0 to 3.3v in 1024 equal steps) or digital communication protocols. 
+> 
+>   - LEDs light up when a current flows through them.
+>     The voltage between a LED's terminals induces this current to flow.
+>     - When the GPIO is set to `1`, 0v is on the pin, and there is 0v difference across the LED (to ground).
+>       No current flows, LED does not light up.
+>     - When the GPIO is set to `0`, 3.3v is on the pin, and there is 3.3v difference across the LED (to ground).
+>       This induces current to flow across the LED, and it lights up.
+>   - The resistor limits current across the LED.
+>     LEDs can be damaged by excessive current (typically above 20mA for low-power LEDs), and the resistor limits the current to a reasonable amount.
+> </details>
 
 Let's move onto the code now:  
 ```cpp
@@ -116,15 +116,15 @@ While this is still C++ code, this differs from the prior examples significantly
   - There's one more delay, then this all repeats with the next `loop()`.
 - Arduino provides a lot of functionality, and an overview reference is available here: [https://www.arduino.cc/reference/en/](https://www.arduino.cc/reference/en/)
 
-<details><summary>A more detailed but accurate explanation of pin directionality</summary>
-
-  - Internally, GPIOs have an output driver (which drives the pin voltage to either ground or positive supply) that can be turned off.
-  - When turned off (in `INPUT` mode), `digitalWrite` has no effect.
-    This is sometimes called _tristating_, referring to the third state (`0`, `1`, and undriven or `Z`).
-    - `Z` means hi-Z, or high-impedance (high-resistance) as a disconnected pin in concept has infinite resistance.
-  - When turned on, (in `OUTPUT` mode), the output driver is enabled, and the pin state is determined by `digitalWrite`.
-  - Pins can be read in output mode, this (probably) samples the voltage on the pin, which is usually the result of `digitalWrite`.
-</details>
+> <details><summary>A more detailed but accurate explanation of pin directionality...</summary>
+> 
+>   - Internally, GPIOs have an output driver (which drives the pin voltage to either ground or positive supply) that can be turned off.
+>   - When turned off (in `INPUT` mode), `digitalWrite` has no effect.
+>     This is sometimes called _tristating_, referring to the third state (`0`, `1`, and undriven or `Z`).
+>     - `Z` means hi-Z, or high-impedance (high-resistance) as a disconnected pin in concept has infinite resistance.
+>   - When turned on, (in `OUTPUT` mode), the output driver is enabled, and the pin state is determined by `digitalWrite`.
+>   - Pins can be read in output mode, this (probably) samples the voltage on the pin, which is usually the result of `digitalWrite`.
+> </details>
 
 
 ### Now you try!
@@ -199,14 +199,14 @@ What's going on here?
 - The `!` operator inverts the value of the expression: `0` becomes `1` and `1` becomes `0`.
   So the conditional is `true` when the button pin reads `0` (`LOW`), or pressed.
 
-<details><summary>A more detailed but accurate explanation of the switch</summary>
-
-  - When the switch is not pressed, the ESP32 pin is floating (disconnected) and indeterminate unless driven by something else.
-    From software, we can configure the pin as `INPUT_PULLUP` which enables a pull-up resistor on the GPIO pin that weakly pulls up the pin to the positive supply and reads as a digital 1.
-    - Because it's a weak pullup, the switch's connection to ground 'wins' when the button is pressed.
-  - This the conventional way to connect switches, with the pin weakly pulled high when the button is not pressed, and forced to ground when the button is pressed.
-    - You could do the opposite, but it's less common.
-</details>
+> <details><summary>A more detailed but accurate explanation of the switch...</summary>
+> 
+>   - When the switch is not pressed, the ESP32 pin is floating (disconnected) and indeterminate unless driven by something else.
+>     From software, we can configure the pin as `INPUT_PULLUP` which enables a pull-up resistor on the GPIO pin that weakly pulls up the pin to the positive supply and reads as a digital 1.
+>     - Because it's a weak pullup, the switch's connection to ground 'wins' when the button is pressed.
+>   - This the conventional way to connect switches, with the pin weakly pulled high when the button is not pressed, and forced to ground when the button is pressed.
+>     - You could do the opposite, but it's less common.
+> </details>
 
 Before you simulate it, what do you think will happen?
 
@@ -244,12 +244,12 @@ Even better, these can be chained, allowing arbitrarily ridiculous numbers of LE
 
 > Naming note: NeoPixel is the Adafruit brand name for these devices, but informally commonly refers to a wide variety of similar devices of daisy-chainable RGB LEDs. 
 
-<details><summary>A more detailed explanation of NeoPixels and signals</summary>
-
-A digital signal is a time-varying waveform that can be used to convey data.
-NeoPixels define a protocol where the red, green, and blue intensities for each device are encoded into a series of digital `1`s and `0`s with specified timing.
-The details aren't relevant for this lab, but you can find more online if you're curious.
-</details>
+> <details><summary>A more detailed explanation of NeoPixels and signals...</summary>
+> 
+> A digital signal is a time-varying waveform that can be used to convey data.
+> NeoPixels define a protocol where the red, green, and blue intensities for each device are encoded into a series of digital `1`s and `0`s with specified timing.
+> The details aren't relevant for this lab, but you can find more online if you're curious.
+> </details>
 
 Add the NeoPixel ring, just like you did with the switch:  
 ![Wokwi LED ring component](wokwi-ledring.png)  
@@ -320,12 +320,12 @@ Once again, there's a few new things in this example:
 - While we've covered object use above, here you have to create the `Adafruit_NeoPixel` object.
   - The syntax for creating an object in C++ is the class name, variable name, and arguments.  
     `Adafruit_NeoPixel LedRing(kNeopixelCount, kNeopixelPin);` means to create an object of class `Adafruit_NeoPixel`, named `LedRing`, and with arguments `kNeopixelCount` and `kNeopixelPin`.  
-    <details><summary>The Python equivalent would be...</summary>
-
-      ```python
-      LedRing = Adafruit_NeoPixel(kNeopixelCount, kNeopixelPin)
-      ```
-    </details>
+    > <details><summary>The Python equivalent would be...</summary>
+    > 
+    >   ```python
+    >   LedRing = Adafruit_NeoPixel(kNeopixelCount, kNeopixelPin)
+    >   ```
+    > </details>
   - When you're familiar with the base language, one trick to quickly getting started with a library is to look for an example and pattern-match.
     Here, we've largely adapted the Adafruit NeoPixel example on the readme, [https://github.com/adafruit/Adafruit_NeoPixel#simple](https://github.com/adafruit/Adafruit_NeoPixel#simple):
     ![Adafruit NeoPixel example snippet](adafruit-npx-example.png)
