@@ -492,7 +492,10 @@ Why do you think this is happening?
 ### The Fix
 
 There are a few ways to solve this (on a beefier processor, you might be able to use threading, which is not available on all microcontrollers).
-Here, we'll solve this by eliminating delays, instead using a clock function (`millis()`, which returns the number of milliseconds since the program started) to check when some time has passed.
+
+One thing we might infer from the explanation is that `delay` is problematic.
+And indeed, it is - it causes the CPU to wait, unable to do anything else even if there were other things we think it should be doing.
+So here, we'll solve this by eliminating delays, instead using a clock function (`millis()`, which returns the number of milliseconds since the program started) to check when some time has passed.
 
 ```cpp
 int ledOffTime = 0;  // millis() at which to turn off the LED
@@ -516,7 +519,13 @@ void loop() {
 }
 ```
 
-We now save the time the LED should turn off in `ledOffTime`, and the time to check for the button press in `ledResetTime`.
+One analogy to how this works might be baking a cake for 30 minutes.
+`delay` would be just staring at the oven, waiting for 30 minutes.
+There might be other things you should be doing, but you're just waiting.
+In contrast, `millis()` is starting the oven, recording the done time, and checking the clock regularly.
+While it's baking, you can go do other things, and when time is up, you can enjoy your cake.
+
+In the code, we record the time the LED should turn off in `ledOffTime`, and the time to check for the button press in `ledResetTime`.
 Instead of a delay, each loop iteration checks if the required time has elapsed, and if so, does the actions.
 If you hold the button down, it should blink.
 
