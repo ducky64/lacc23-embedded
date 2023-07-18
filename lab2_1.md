@@ -76,7 +76,7 @@ When the switch is not pressed, the LED should be off.
 
 ### Activity 2.2: Printf on Hardware
 
-printfs take time watch out
+⚠️ printfs take time watch out
 
 
 ### Activity 2.3: Reading the Light Sensor
@@ -91,7 +91,7 @@ Nlogoutput the board led
 
 ### Activity 2.4: OLED Display
 
-_Let us know when you get to this part, and we'll give you an OLED display and right-angle USB connector._
+_Let us know when you get to this part, and we'll provide the OLED display and right-angle USB connector._
 
 
 ### Activity 2.5: Putting it all together: Ring Light Sensor with Numeric Display

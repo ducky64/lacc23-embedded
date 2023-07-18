@@ -103,7 +103,7 @@ int main() {
 >   ```
 > </details>
 
-> <details><summary>If everything worked, this is the expected output...</summary>
+> <details><summary>✅ If everything worked, this is the expected output...</summary>
 > 
 >   ```
 >   x = 1
@@ -174,7 +174,7 @@ int main() {
 >   ```
 > </details>
 
-> <details><summary>If everything worked, this is the expected output...</summary>
+> <details><summary>✅ If everything worked, this is the expected output...</summary>
 > 
 >   ```
 >   i = 0 is even
@@ -261,7 +261,7 @@ int main() {
 >   ```
 > </details>
 
-> <details><summary>If everything worked, this is the expected output...</summary>
+> <details><summary>✅ If everything worked, this is the expected output...</summary>
 > 
 >   (this is the exact same as the prior activity)
 >   ```
