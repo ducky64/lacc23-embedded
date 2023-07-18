@@ -21,6 +21,8 @@ There's a few more devices that won't be part of the core lab, but if you have t
 
 ### Activity 2.4: OLED Display
 
+_Let us know when you get to this part, and we'll give you an OLED display and right-angle USB connector._
 
-### Activity 2.5: Putting it all together: Ring Light Sensor with Numeric Dispaly
+
+### Activity 2.5: Putting it all together: Ring Light Sensor with Numeric Display
 
