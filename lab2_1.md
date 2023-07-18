@@ -230,5 +230,6 @@ _Let us know when you get to this part, and we'll provide the OLED display and r
 
 ## Activity 2.6: Putting it all together: Light Sensor with LED Ring and Text Display
 
+So now, we have a bunch of parts: a light sensor, LED ring, and OLED display.
+Let's put this all together and make a somewhat-useful light sensor.
 
-## Extra for Experts I: Servos
