@@ -116,7 +116,7 @@ Hopefully why you got the output you did is pretty intuitive, but let's continue
   - `int` means a signed (positive or negative) integer type (whole number, positive or negative), with size platform-dependent.
     In our system, `int` is a 32-bit (4-byte) integer, with an allowable range from -2,147,483,648 = $-2^{31}$ to +2,147,483,647 = $+2^{31} - 1$ ($2^{32}$ distinct values).
   - `float` is a floating-point (decimal) type, more similar to how Python handles numbers.
-    `float`s are more computationally expensive, especially on lower-end systems that lack dedicated floating-point hardware like lower-end microcontrollers.
+    `float`s can run significantly slower than integer operations on lower-cost chips lacking dedicated hardware.
   - `bool` is a boolean type, which can either be `true` or `false`.
   - There are many more types out there, some of which we will cover later.
 - Variable assignment and arithmetic have similar syntax to Python.
