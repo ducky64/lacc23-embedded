@@ -40,6 +40,7 @@ You will need Arduino IDE 2.0 or higher, configured for the ESP32 platform, and 
    - This may take a while
 3. Also install these libraries:
    - **Adafruit SSD1306** by Adafruit
+   - **ESP32Servo** by Kevin Harrington,John K. Bennett
    - **ESP8266Audio** by Earle F. Philhower, III 
    - If prompted to install dependencies, do so.
 

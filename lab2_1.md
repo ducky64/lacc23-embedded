@@ -30,9 +30,6 @@ const int kLedPin = 2;
 void setup() {
   // put your setup code here, to run once:
   pinMode(kLedPin, OUTPUT);
-
-  Serial.begin(115200);
-  Serial.println("Hello, ESP32!");
 }
 
 void loop() {
@@ -47,7 +44,7 @@ void loop() {
 
 ### Now you try!
 
-Bring back the switch from the last lab, and use it to gate the blinking.
+Re-implement the switch code from the last lab, and use it to gate the blinking.
 When the switch is pressed, the LED should blink once every second.
 When the switch is not pressed, the LED should be off.
 
@@ -77,10 +74,19 @@ When the switch is not pressed, the LED should be off.
 </details>
 
 
-### Activity 2.2: Porting over the LED Ring
+### Activity 2.2: Printf on Hardware
+
+printfs take time watch out
 
 
 ### Activity 2.3: Reading the Light Sensor
+
+Nlogoutput the board led
+
+
+
+
+### Activity 2.2: Porting over the LED Ring
 
 
 ### Activity 2.4: OLED Display
@@ -90,3 +96,5 @@ _Let us know when you get to this part, and we'll give you an OLED display and r
 
 ### Activity 2.5: Putting it all together: Ring Light Sensor with Numeric Display
 
+
+### Extra for Experts I: Servos
