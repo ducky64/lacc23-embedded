@@ -14,7 +14,7 @@ The carrier board contains the LED ring (which you'd be familiar with from the s
 There's a few more devices that won't be part of the core lab, but if you have time you can play with then in the extra section.
 
 
-### Activity 2.1: Hardware Bring-up
+## Activity 2.1: Hardware Bring-up
 
 When bringing up new hardware, it's generally a good idea to start small and build up, instead of building everything at once and hoping it works on the first try.
 While we have full code including the LED ring from yesterday and validated in the simulator, let's still work in steps.
@@ -51,7 +51,7 @@ Re-implement the switch code from the last lab, and use it to gate the blinking.
 When the switch is pressed, the LED should blink once every second.
 When the switch is not pressed, the LED should be off.
 
-<details><summary><span style="color:DimGrey"><b>Solution</b> (try it on your own first!)</span></summary>
+<details><summary><span style="color:DimGrey"><b>t🤔 Solution</b> (try it on your own first!)</span></summary>
 
   ```cpp
   const int kLedPin = 2;
@@ -77,7 +77,58 @@ When the switch is not pressed, the LED should be off.
 </details>
 
 
-### Activity 2.2: Printf on Hardware
+## Activity 2.2: Porting over the LED Ring
+
+With the print and analogRead detour out of the way, let's test the LED ring from the last lab.
+
+If you have simulator code from yesterday, just copy that over to the real board.
+You don't need to try to merge this with the blinky LED code, we just want to test the hardware for now.
+Make sure to update the pinning:  
+`const int kNeopixelPin = 48;`  
+and the LED counts:  
+`const int kNeopixelCount = 12;`
+
+<details><summary><span style="color:DimGrey">🤔 Otherwise, you can use this reference rainbow ring code</span></summary>
+
+  ```cpp
+  #include <Adafruit_NeoPixel.h>
+  const int kNeopixelCount = 12;
+  Adafruit_NeoPixel LedRing(kNeopixelCount, kNeopixelPin);
+  
+  void setup() {
+    // put your setup code here, to run once:
+    LedRing.begin();
+  }
+
+  int offset = 0;
+  
+  void loop() {
+    // put your main code here, to run repeatedly:
+    for (int i=0; i<kNeopixelCount; i++) {
+      int index = (i + offset) % 6;
+      if (index % 6 == 0) {
+        LedRing.setPixelColor(i, LedRing.Color(255, 0, 0));
+      } else if (index == 1) {
+        LedRing.setPixelColor(i, LedRing.Color(255, 255, 0));
+      } else if (index == 2) {
+        LedRing.setPixelColor(i, LedRing.Color(0, 255, 0));
+      } else if (index == 3) {
+        LedRing.setPixelColor(i, LedRing.Color(0, 255, 255));
+      } else if (index == 4) {
+        LedRing.setPixelColor(i, LedRing.Color(0, 0, 255));
+      } else if (index == 5) {
+        LedRing.setPixelColor(i, LedRing.Color(255, 0, 255));
+      }
+    }
+    offset++;
+    LedRing.show();
+    delay(250);
+  }
+  ```
+</details>
+
+
+## Activity 2.3: Print on Hardware
 
 While a single LED used creatively can be surprisingly useful as a debugging tool, it's also pretty limiting.
 And although we don't have a screen on this board (yet) like we might print on a PC, we can still send print data to a connected PC.
@@ -131,22 +182,53 @@ void loop() {
 ```
 
 
-### Activity 2.3: Reading the Light Sensor
+## Activity 2.4: Reading the Light Sensor
 
-Nlogoutput the board led
+Now that we can print text, let's try reading the light sensor.
+While the prior labs have only used digital communications, this light sensor communicates using analog, by varying a voltage according to the intensity of incoming light.
+Do note that the light sensor is set up so that less light means a higher voltage, while more light means a lower voltage.
+Under pitch darkness (such as if you cover the sensor with a finger), it should read 3.3v.
+
+Let's put these two things together, and try running this code:
+
+```cpp
+const int kLightSensorPin = 1;
 
 
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(115200);
+  Serial.println("Hello, real ESP32!");
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  Serial.println(analogRead(kLightSensorPin));
+  delay(250);
+}
+```
+
+Hopefully this code reads pretty straightforwardly, but there's a few things to note:
+- `analogRead(...)` returns the voltage on a pin as an integer value between 0 and 1023.
+  - Typically, 0 corresponds to 0V, and 1023 corresponds to the positive voltage supply (3.3V here).
+- Unlike printf, println magically does the right thing based on the type of data passed into it.
+  Here, it interprets an integer argument as a request to print it as a number.
 
 
-### Activity 2.2: Porting over the LED Ring
+### Serial Plotter
+
+While watching numbers scroll by is better than nothing, it may not be the most intuitive way to work with data.
+Arduino also provides a Serial Plotter, which will plot points from numbers received over Serial.
+
+TODO screenshots
 
 
-### Activity 2.4: OLED Display
+## Activity 2.5: OLED Display
 
 _Let us know when you get to this part, and we'll provide the OLED display and right-angle USB connector._
 
 
-### Activity 2.5: Putting it all together: Ring Light Sensor with Numeric Display
+## Activity 2.6: Putting it all together: Light Sensor with LED Ring and Text Display
 
 
-### Extra for Experts I: Servos
+## Extra for Experts I: Servos

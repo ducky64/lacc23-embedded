@@ -295,7 +295,8 @@ You'll need to install this in Wokwi:
 - On the left, go to the Library Manager tab.
 - Click the +.
 - Search for "neopixel".
-- Add "Adafruit NeoPixel
+- Add "Adafruit NeoPixel"
+  - Ignore the Adafruit DMA neopixel library
 
 ![Wokwi Neopixel library](wokwi-library-neopixel.png)
 
