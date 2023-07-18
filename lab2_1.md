@@ -2,6 +2,10 @@
 
 _Today, we'll get to program actual hardware, and including using real-world versions of the parts you used in the simulator._
 
+_Circuit boards may contain toxic materials._
+_They are safe to touch, but wash your hands prior to eating._
+_Not lick-safe._
+
 Since our focus is on the embedded programming aspect, we will be using this pre-built custom circuit board:
 ![OwlBot pinning](owlbot-pinning.png)
 
