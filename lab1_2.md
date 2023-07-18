@@ -131,7 +131,7 @@ While this is still C++ code, this differs from the prior examples significantly
 
 Adjust the code so that the LED blinks once every two seconds, and with 75% of the time on and 25% of the time off.
 
-<details><summary><span style="color:DimGrey"><b>Solution</b> (try it on your own first!)</span></summary>
+<details><summary><span style="color:DimGrey"><b>🤔 Solution</b> (try it on your own first!)</span></summary>
 
   For this, we only need to change the delay that controls how long the LED is on.
 
@@ -215,7 +215,7 @@ Before you simulate it, what do you think will happen?
 While the above example completely removes the blinking LED, bring back the blinking LED with a twist: the LED should only blink when the button is pressed, and should be off otherwise.
 It's up to you how long the LED takes to react to a button press or release, but opt for the simpler solution.
 
-<details><summary><span style="color:DimGrey"><b>Solution</b> (try it on your own first!)</span></summary>
+<details><summary><span style="color:DimGrey"><b>🤔 Solution</b> (try it on your own first!)</span></summary>
 
   ```cpp
   void loop() {
@@ -361,7 +361,7 @@ For example, on LED 0, `0 % 6 = 0` for the first color, while on LED 6, `6 % 6 =
 
 It's totally fine to use 6 `if` / `else if` / `else` blocks here!
 
-<details><summary><span style="color:DimGrey"><b>Solution</b> (try it on your own first!)</span></summary>
+<details><summary><span style="color:DimGrey"><b>🤔 Solution</b> (try it on your own first!)</span></summary>
 
   ```cpp
   void loop() {
@@ -394,7 +394,7 @@ Now that you have a rainbow ring, have it rotate, advancing four LEDs per second
 
 If you want to save state between loops, you can declare a variable outside `loop()`, and both update and read from it within `loop()`.
 
-<details><summary><span style="color:DimGrey"><b>Solution</b> (try it on your own first!)</span></summary>
+<details><summary><span style="color:DimGrey"><b>🤔 Solution</b> (try it on your own first!)</span></summary>
 
   For this, we just added an offset to the index, which increments between each loop.
 
@@ -536,7 +536,7 @@ This is because there's still a 250ms delay in the LED ring code, and if the but
 
 Let's fix that: rewrite the LED ring code in the above style, and make it so that button presses are consistently detected.
 
-<details><summary><span style="color:DimGrey"><b>Solution</b> (try it on your own first!)</span></summary>
+<details><summary><span style="color:DimGrey"><b>🤔 Solution</b> (try it on your own first!)</span></summary>
 
   For this, we've added a ringUpdateTime, which is the next `millis()` at which the ring should update.
   On each iteration, this advances by 250ms.
