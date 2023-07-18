@@ -134,6 +134,8 @@ Try modifying the above code to calculate the sum of 1, 2, 3, and 4.
 <details><summary><span style="color:DimGrey"><b>🤔 Solution</b> (try it on your own first!)</span></summary>
 
   ```cpp
+  #include <stdio.h>
+
   int main() {
     int sum = 1 + 2 + 3 + 4;
     printf("The sum is = %i\n", sum);
@@ -211,6 +213,8 @@ Don't even try to write out all the individual numbers!
 <details><summary><span style="color:DimGrey"><b>🤔 Solution</b> (try it on your own first!)</span></summary>
 
   ```cpp
+  #include <stdio.h>
+
   int main() {
     int sum = 0;
     for (int i=0; i<1000; i++) {
@@ -292,6 +296,8 @@ Consider starting from the solution in 1.3, and remember that you can call other
 <details><summary><span style="color:DimGrey"><b>🤔 Solution</b> (try it on your own first!)</span></summary>
 
   ```cpp
+  #include <stdio.h>
+
   bool isEven(int x) {  // optional, you may have written x % 2 == 0 directly
     return x % 2 == 0;
   }

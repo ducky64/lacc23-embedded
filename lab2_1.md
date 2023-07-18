@@ -21,6 +21,9 @@ While we have full code including the LED ring from yesterday and validated in t
 
 Similarly to the last lab, the first thing we'll do is blink the LED, since this is the simplest thing that tests basic functionality
 Copy this code into Arduino, then hit Upload to the board.
+
+TODO: upload button screenshot
+
 If all worked correctly, the LED on the daughterboard should blink about once a second.
 
 ```cpp
@@ -76,7 +79,56 @@ When the switch is not pressed, the LED should be off.
 
 ### Activity 2.2: Printf on Hardware
 
-⚠️ printfs take time watch out
+While a single LED used creatively can be surprisingly useful as a debugging tool, it's also pretty limiting.
+And although we don't have a screen on this board (yet) like we might print on a PC, we can still send print data to a connected PC.
+This is typically done using a Serial port, and is a common way to debug embedded systems.
+
+> ⚠️ Printing data to Serial is NOT instantaneous and can take time!
+> A short sentence might take a few milliseconds, but if milliseconds matter for your application (which it might!), this can throw off timing.
+
+> <details><summary>⚡ More details about Serial...</summary>
+>
+>   Serial refers to a serial port, in which data is transferred one bit at a time.
+>   In embedded systems, this often refers to a UART (universal asynchronous receiver-transmitter), a signalling standard for transferring bytes.
+>   This is commonly used to send debugging information to a connected PC, where it can then be displayed.
+> 
+>   UART communications are defined in terms of baud rate, which is the number of bits per second.
+>   115200 baud (a common faster speed) means 115200 bits per second.
+>   At 8 bits per character, one start bit, and one stop bit, this means 11520 characters per second, or about 0.086 milliseconds per character.
+> 
+>   In simpler frameworks like Arduino, Serial `print`s are blocking (like `delay`) until the data transfer completes.
+>   On some more advanced processors, it is possible to send serial data in the background, with `print` returning immediately while the data transfer continues.
+>
+>   On modern boards, a separate chip commonly adapts UART signaling to USB, which can then be directly plugged into a PC.
+>   However, the concept is still the same: a stream of characters from the microcontroller to the screen, which can be displayed as text. 
+> </details>
+
+Copy this code into Arduino, but before uploading, open the Serial Monitor (main menu -> Tools -> Serial Monitor).
+Then, hit Upload to load the code onto the board.
+By starting serial monitor beforehand, you can see the output from the board as soon as it starts running, including prints in setup().
+TODO serial monitor screen, upload screen
+
+```cpp
+const int kLedPin = 2;
+
+
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(kLedPin, OUTPUT);
+
+  Serial.begin(115200);
+  Serial.println("Hello, real ESP32!");
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  Serial.println("Blink");
+  digitalWrite(kLedPin, HIGH);
+  delay(500);
+  digitalWrite(kLedPin, LOW);
+  delay(500);
+}
+```
 
 
 ### Activity 2.3: Reading the Light Sensor
