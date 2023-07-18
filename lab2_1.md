@@ -10,7 +10,7 @@ The carrier board contains the LED ring (which you'd be familiar with from the s
 There's a few more devices that won't be part of the core lab, but if you have time you can play with then in the extra section.
 
 
-### Activity 2.1: Harware Bring-up
+### Activity 2.1: Hardware Bring-up
 
 
 ### Activity 2.2: Porting over the LED Ring
