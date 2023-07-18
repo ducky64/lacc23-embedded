@@ -136,6 +136,17 @@ Adjust the code so that the LED blinks once every two seconds, and with 75% of t
   For this, we only need to change the delay that controls how long the LED is on.
 
   ```cpp
+  const int kLedPin = 2;
+
+
+  void setup() {
+    // put your setup code here, to run once:
+    pinMode(kLedPin, OUTPUT);
+  
+    Serial.begin(115200);
+    Serial.println("Hello, ESP32!");
+  }
+
   void loop() {
     // put your main code here, to run repeatedly:
     digitalWrite(kLedPin, HIGH);
@@ -218,6 +229,19 @@ It's up to you how long the LED takes to react to a button press or release, but
 <details><summary><span style="color:DimGrey"><b>🤔 Solution</b> (try it on your own first!)</span></summary>
 
   ```cpp
+  const int kLedPin = 2;
+  const int kButtonPin = 13;
+  
+  
+  void setup() {
+    // put your setup code here, to run once:
+    pinMode(kLedPin, OUTPUT);
+    pinMode(kButtonPin, INPUT_PULLUP);
+  
+    Serial.begin(115200);
+    Serial.println("Hello, ESP32!");
+  }
+
   void loop() {
     // put your main code here, to run repeatedly:
     if (!digitalRead(kButtonPin)) {  // just gate the blinking with an if conditional on the button state 
@@ -364,6 +388,25 @@ It's totally fine to use 6 `if` / `else if` / `else` blocks here!
 <details><summary><span style="color:DimGrey"><b>🤔 Solution</b> (try it on your own first!)</span></summary>
 
   ```cpp
+  const int kLedPin = 2;
+  const int kButtonPin = 13;
+  const int kNeopixelPin = 12;
+  
+  #include <Adafruit_NeoPixel.h>
+  const int kNeopixelCount = 16;
+  Adafruit_NeoPixel LedRing(kNeopixelCount, kNeopixelPin);
+  
+  void setup() {
+    // put your setup code here, to run once:
+    pinMode(kLedPin, OUTPUT);
+    pinMode(kButtonPin, INPUT_PULLUP);
+  
+    Serial.begin(115200);
+    Serial.println("Hello, ESP32!");
+  
+    LedRing.begin();
+  }
+
   void loop() {
     // put your main code here, to run repeatedly:
     for (int i=0; i<kNeopixelCount; i++) {
@@ -399,6 +442,25 @@ If you want to save state between loops, you can declare a variable outside `loo
   For this, we just added an offset to the index, which increments between each loop.
 
   ```cpp
+  const int kLedPin = 2;
+  const int kButtonPin = 13;
+  const int kNeopixelPin = 12;
+  
+  #include <Adafruit_NeoPixel.h>
+  const int kNeopixelCount = 16;
+  Adafruit_NeoPixel LedRing(kNeopixelCount, kNeopixelPin);
+  
+  void setup() {
+    // put your setup code here, to run once:
+    pinMode(kLedPin, OUTPUT);
+    pinMode(kButtonPin, INPUT_PULLUP);
+  
+    Serial.begin(115200);
+    Serial.println("Hello, ESP32!");
+  
+    LedRing.begin();
+  }
+
   int offset = 0;
   
   void loop() {
@@ -498,6 +560,25 @@ And indeed, it is - it causes the CPU to wait, unable to do anything else even i
 So here, we'll solve this by eliminating delays, instead using a clock function (`millis()`, which returns the number of milliseconds since the program started) to check when some time has passed.
 
 ```cpp
+const int kLedPin = 2;
+const int kButtonPin = 13;
+const int kNeopixelPin = 12;
+
+#include <Adafruit_NeoPixel.h>
+const int kNeopixelCount = 16;
+Adafruit_NeoPixel LedRing(kNeopixelCount, kNeopixelPin);
+
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(kLedPin, OUTPUT);
+  pinMode(kButtonPin, INPUT_PULLUP);
+
+  Serial.begin(115200);
+  Serial.println("Hello, ESP32!");
+
+  LedRing.begin();
+}
+
 int ledOffTime = 0;  // millis() at which to turn off the LED
 int ledResetTime = 0;  // earliest millis() at which the LED can blink again
 
@@ -542,6 +623,25 @@ Let's fix that: rewrite the LED ring code in the above style, and make it so tha
   On each iteration, this advances by 250ms.
 
   ```cpp
+  const int kLedPin = 2;
+  const int kButtonPin = 13;
+  const int kNeopixelPin = 12;
+  
+  #include <Adafruit_NeoPixel.h>
+  const int kNeopixelCount = 16;
+  Adafruit_NeoPixel LedRing(kNeopixelCount, kNeopixelPin);
+  
+  void setup() {
+    // put your setup code here, to run once:
+    pinMode(kLedPin, OUTPUT);
+    pinMode(kButtonPin, INPUT_PULLUP);
+  
+    Serial.begin(115200);
+    Serial.println("Hello, ESP32!");
+  
+    LedRing.begin();
+  }
+
   int offset = 0;
   int ringUpdateTime = 0;
   
