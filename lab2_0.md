@@ -43,7 +43,6 @@ You will need Arduino IDE 2.0 or higher, configured for the ESP32 platform, and 
    - **Adafruit SSD1306** by Adafruit
      - This may prompt you about dependencies being required, choose to "Install All"
    - **ESP32Servo** by Kevin Harrington,John K. Bennett
-   - **ESP8266Audio** by Earle F. Philhower, III
 
 
 ### Install ESPHome

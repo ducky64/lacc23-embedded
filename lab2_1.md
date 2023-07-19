@@ -232,8 +232,9 @@ void loop() {
 ```
 
 Hopefully this code reads pretty straightforwardly, but there's a few things to note:
-- `analogRead(...)` returns the voltage on a pin as an integer value between 0 and 1023.
-  - Typically, 0 corresponds to 0V, and 1023 corresponds to the positive voltage supply (3.3V here).
+- `analogRead(...)` returns the voltage on a pin as an integer value between 0 and 4095.
+  - Typically, 0 corresponds to 0V, and 4095 corresponds to the positive voltage supply (3.3V here).
+  - The full range of `analogRead(...)` depends on the particular chip, on lower-end devices with lower analog resolution this may be 0 to 1023.
 - Unlike printf, println magically does the right thing based on the type of data passed into it.
   Here, it interprets an integer argument as a request to print it as a number.
 
@@ -251,6 +252,157 @@ To get the value to change, try covering the light sensor with your hand, or shi
 ## Activity 2.5: OLED Display
 
 _Let us know when you get to this part, and we'll provide the OLED display and right-angle USB connector._
+_When connecting the OLED, be careful with the ribbon cable, and make sure the board is disconnected._
+
+Once everything is connected and plugged back in, run this code:
+
+```cpp
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+
+int kScreenWidth = 128;
+int kScreenHeight = 64;
+int kScreenAddress = 0x3c;
+int kOledScl = 5;
+int kOledSda = 4;
+
+Adafruit_SSD1306 Oled(kScreenWidth, kScreenHeight, &Wire);
+
+
+void setup() {
+  // put your setup code here, to run once:
+  Wire.begin(kOledSda, kOledScl);
+  Oled.begin(SSD1306_EXTERNALVCC, kScreenAddress);
+  Oled.display();
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+}
+```
+
+Like the NeoPixel code, this code also uses a library that handles the details of communicating with the OLED display.
+However, there's a bit more setup here:
+- `Wire` is a standard Arduino library for communicating over I2C, a digital communication standard.
+  It uses two physical lines, and is sometimes also called a two-wire interface.
+- We need to set the pins for `Wire` using `Wire.begin(...)`
+- Otherwise, similar to the NeoPixels, we also initialize the OLED using `Oled.begin(...)`, then update the display using `Oled.display()`.
+
+If all worked, you should see the Adafruit logo on the screen.
+
+However, a screen that displays nothing but a logo isn't very interesting, so let's draw some custom graphics:
+```cpp
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+
+const int kScreenWidth = 128;
+const int kScreenHeight = 64;
+const int kScreenAddress = 0x3c;
+const int kOledScl = 5;
+const int kOledSda = 4;
+
+Adafruit_SSD1306 Oled(kScreenWidth, kScreenHeight, &Wire);
+
+
+void setup() {
+  // put your setup code here, to run once:
+  Wire.begin(kOledSda, kOledScl);
+  Oled.begin(SSD1306_EXTERNALVCC, kScreenAddress);
+
+  Oled.clearDisplay();
+  
+  Oled.drawRect(0, 0, kScreenWidth, kScreenHeight, WHITE);
+
+  Oled.setTextColor(WHITE);
+  Oled.setCursor(4, 4);
+  Oled.println("Hello, OLED!");
+
+  Oled.display();
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+}
+```
+
+Hopefully most of this code is self-explanatory, but there's a few things to note:
+- We need to `clearDisplay()` to clear the prior logo.
+- `drawRect(x, y, w, h, color)` draws a rectangle from (x1, y1) to (x2, y2) using the specified color.
+  - To draw a box around the entire screen, we start at `(0, 0)` with `kScreenWidth` wide and `kScreenHeight` high.
+  - Our OLED is monochrome, so we really only have the option of `WHITE`.
+- Text operations are a bit more complex.
+  While draw operations contain all their arguments (position, color) in the function call, for text those are stored and configured by separate functions like `setTextColor(...)` and `setCursor(...)`.
+
+
+### Now you try!
+
+Let's start by connecting the light sensor to the OLED: print the `analogRead(...)` value to the screen.
+
+<details><summary><span style="color:DimGrey"><b>🤔 Solution</b> (try it on your own first!)</span></summary>
+
+  ```cpp
+  #include <Wire.h>
+  #include <Adafruit_GFX.h>
+  #include <Adafruit_SSD1306.h>
+  
+  const int kLightSensorPin = 1;
+  
+  const int kScreenWidth = 128;
+  const int kScreenHeight = 64;
+  const int kScreenAddress = 0x3c;
+  const int kOledScl = 5;
+  const int kOledSda = 4;
+  
+  Adafruit_SSD1306 Oled(kScreenWidth, kScreenHeight, &Wire);
+  
+  
+  void setup() {
+    // put your setup code here, to run once:
+    Wire.begin(kOledSda, kOledScl);
+    Oled.begin(SSD1306_EXTERNALVCC, kScreenAddress);
+  }
+  
+  void loop() {
+    // put your main code here, to run repeatedly:
+    Oled.clearDisplay();
+  
+    Oled.setTextColor(WHITE);
+    Oled.setCursor(4, 4);
+    Oled.println(analogRead(kLightSensorPin));
+  
+    Oled.display();
+    
+    delay(100);
+  }
+  ```
+</details>
+
+Next, try drawing a progress bar that indicates the light level.
+Empty means 0, full means 4095.
+
+You may find the Adafruit Graphics Primitives documentation useful: https://learn.adafruit.com/adafruit-gfx-graphics-library/graphics-primitives.
+You may make use of both drawRect and fillRect, though feel free to experiment with other graphical operations.
+One way to think of a progress bar is a box for the frame, and a filled box for the percentage complete.
+
+<details><summary><span style="color:DimGrey"><b>🤔 Solution</b> (try it on your own first!)</span></summary>
+
+  The rest of the code is the same, but replace `Oled.println(analogRead(kLightSensorPin));` in `loop()` with:
+
+  ```cpp
+  int lightValue = analogRead(kLightSensorPin);
+  Oled.println(lightValue);
+
+  Oled.drawRect(0, 32, 128, 8, WHITE);
+  Oled.fillRect(0, 32, lightValue * 128 / 4095, 8, WHITE);
+  ```
+
+  `lightValue * 128 / 4095` scales the `analogRead(...)` output from 0-4095 (the analogRead output) to 0-128 (the screen width).
+
+  We store the value of `analogRead(...)` in `lightValue` so that the text and bar values are consistent.
+  Calling `analogRead(...)` twice in quick succession also affects the output (such weirdness is the joy of dealing with real hardware).
+</details>
 
 
 ## Activity 2.6: Putting it all together: Light Sensor with LED Ring and Text Display
@@ -258,3 +410,81 @@ _Let us know when you get to this part, and we'll provide the OLED display and r
 So now, we have a bunch of parts: a light sensor, LED ring, and OLED display.
 Let's put this all together and make a somewhat-useful light sensor.
 
+For this, update the progress bar such that maximum light (`0` from `analogRead(...)`) is a full bar, and minimum light (define your own threshold as a constant in code, based on what you observe) is an empty bar.
+
+Then, also treat the LED ring as a progress bar, with maximum light lighting up the entire ring and minimum light lighting up none of the ring.
+Avoid using the first and last pixel (the ones closest to the light sensor) to avoid those interfering with the result. 
+
+<details><summary><span style="color:DimGrey"><b>🤔 Solution</b> (try it on your own first!)</span></summary>
+
+  This solution first reverses the `analogRead(...)` value so that `kMinLight=1024` becomes zero, and zero becomes `kMinLight`.
+  Alternatively viewed, this simultaneously reverses the value of `analogRead(...)`, and scales it to `kMinLight`.
+
+  The rest of variations of what we've done already.
+
+  One trick is that we avoid the first and last pixels in the LED ring by using `kNeoPixelCount - 2` pixels, then adding an offset to the pixel index to skip the first one.
+
+  ```cpp
+  const int kLightSensorPin = 1;
+  
+  const int kMinLight = 1024;
+  
+  #include <Adafruit_NeoPixel.h>
+  const int kNeoPixelPin = 48;
+  const int kNeoPixelCount = 12;
+  Adafruit_NeoPixel LedRing(kNeoPixelCount, kNeoPixelPin);
+  
+  #include <Wire.h>
+  #include <Adafruit_GFX.h>
+  #include <Adafruit_SSD1306.h>
+  const int kScreenWidth = 128;
+  const int kScreenHeight = 64;
+  const int kScreenAddress = 0x3c;
+  const int kOledScl = 5;
+  const int kOledSda = 4;
+  Adafruit_SSD1306 Oled(kScreenWidth, kScreenHeight, &Wire);
+  
+  
+  void setup() {
+    // put your setup code here, to run once:
+    Wire.begin(kOledSda, kOledScl);
+    Oled.begin(SSD1306_EXTERNALVCC, kScreenAddress);
+  
+    LedRing.begin();
+    LedRing.setBrightness(32);
+  }
+  
+  void loop() {
+    // put your main code here, to run repeatedly:
+    Oled.clearDisplay();
+  
+    Oled.setTextColor(WHITE);
+    Oled.setCursor(4, 4);
+    
+    int lightValue = analogRead(kLightSensorPin);
+    Oled.println(lightValue);
+  
+    int reversedLight = kMinLight - lightValue;
+    if (lightValue > kMinLight) {
+      reversedLight = 0;  // prevent overflowing or going negative
+    }
+  
+    Oled.drawRect(0, 32, 128, 8, WHITE);
+    Oled.fillRect(0, 32, reversedLight * 128 / kMinLight, 8, WHITE);
+  
+    Oled.display();
+  
+    int pixelsLit = reversedLight * (kNeoPixelCount - 2) / kMinLight;
+    for (int i=0; i<kNeoPixelCount - 2; i++) {
+      if (i <= pixelsLit) {
+        LedRing.setPixelColor(i + 1, LedRing.Color(0, 255, 0));
+      } else {
+        LedRing.setPixelColor(i + 1, LedRing.Color(0, 0, 0));
+      }
+    }
+    LedRing.show();
+  
+    delay(100);
+  }
+  ```
+</details>
