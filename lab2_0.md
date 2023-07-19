@@ -17,6 +17,7 @@ You will need Arduino IDE 2.0 or higher, configured for the ESP32 platform, and 
 1. Start Arduino.
 2. Open Preferences: **main menu > File > Preferences**  
    ![img.png](arduino-file-preferences.png)
+   - On a Mac, this may be **main menu > Arduino IDE > Settings**
 3. In the Additional board manager URLs, add:  
    `https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json`  
    ![img.png](arduino-board-urls.png)
@@ -40,9 +41,9 @@ You will need Arduino IDE 2.0 or higher, configured for the ESP32 platform, and 
    - This may take a while
 3. Also install these libraries:
    - **Adafruit SSD1306** by Adafruit
+     - This may prompt you about dependencies being required, choose to "Install All"
    - **ESP32Servo** by Kevin Harrington,John K. Bennett
-   - **ESP8266Audio** by Earle F. Philhower, III 
-   - If prompted to install dependencies, do so.
+   - **ESP8266Audio** by Earle F. Philhower, III
 
 
 ### Install ESPHome
