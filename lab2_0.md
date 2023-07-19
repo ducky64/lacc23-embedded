@@ -28,7 +28,7 @@ You will need Arduino IDE 2.0 or higher, configured for the ESP32 platform, and 
    In the search box, enter `ESP32`, then click **Install** on **esp32** by Espressif Systems  
    ![img.png](arduino-board-manager-esp32.png)
    - This may take a while
-6. If everything worked, you can select the ESP32S3 board: **main menu > Tools > Board > ESP32S3 Boards > ESP32S3 Dev Module**  
+6. If everything worked, you can select the ESP32S3 board: **main menu > Tools > Board > esp32 > ESP32S3 Dev Module**  
 
 
 ### Install Libraries

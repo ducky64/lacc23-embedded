@@ -20,7 +20,9 @@ There's a few more devices that won't be part of the core lab, but if you have t
 2. Plug in the board to your laptop (using the RIGHT USB socket on the board - the one closer to the speaker).
 3. Select ESP32S3 Dev Module as the board: **main menu > Tools > Board > esp32 > ESP32S3 Dev Module**
    - Under **esp32**, there will be a long list, but ESP32S3 Dev Module should be near the top
-4. Select the programming port: **main menu > Tools > Port > (your port here)**
+4. Configure the specific module: **main menu > Tools > PSRAM > QSPI PSRAM**
+   - Without this, the ring LED may behave weirdly
+5. Select the programming port: **main menu > Tools > Port > (your port here)**
    On most machines, there should be only one choice of port - select that.
    If you see multiple ports, likely the last one is the right one.
    If you see no ports, it may not be seeing the connected board - feel free to ask for help!.
