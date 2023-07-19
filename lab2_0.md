@@ -49,5 +49,6 @@ You will need Arduino IDE 2.0 or higher, configured for the ESP32 platform, and 
 
 ESPHome will be an optional part of the lab on low-code / no-code approaches to embedded software development.
 
-1. Follow the [ESPHome manual installation instructions](https://esphome.io/guides/installing_esphome.html).
-   - tl;dr: install ESPHome through Python's package manager, pip.
+1. Install ESPHome: on the terminal, run `pip3 install esphome` (on Windows, this may be `pip install esphome`) 
+   - Don't worry if you can't get this to work.
+   - More detailed instructions at the [ESPHome manual installation guide](https://esphome.io/guides/installing_esphome.html).
