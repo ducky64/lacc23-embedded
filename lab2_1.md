@@ -14,17 +14,28 @@ The carrier board contains the LED ring (which you'd be familiar with from the s
 There's a few more devices that won't be part of the core lab, but if you have time you can play with then in the extra section.
 
 
+## Activity 2.0: Arduino Configuration
+
+1. Launch Arduino IDE.
+2. Plug in the board to your laptop (using the RIGHT USB socket on the board - the one closer to the speaker).
+3. Select ESP32S3 Dev Module as the board: **main menu > Tools > Board > esp32 > ESP32S3 Dev Module**
+   - Under **esp32**, there will be a long list, but ESP32S3 Dev Module should be near the top
+4. Select the programming port: **main menu > Tools > Port > (your port here)**
+   On most machines, there should be only one choice of port - select that.
+   If you see multiple ports, likely the last one is the right one.
+   If you see no ports, it may not be seeing the connected board - feel free to ask for help!.
+
+
 ## Activity 2.1: Hardware Bring-up
 
 When bringing up new hardware, it's generally a good idea to start small and build up, instead of building everything at once and hoping it works on the first try.
 While we have full code including the LED ring from yesterday and validated in the simulator, let's still work in steps.
 
 Similarly to the last lab, the first thing we'll do is blink the LED, since this is the simplest thing that tests basic functionality
-Copy this code into Arduino, then hit Upload to the board.
+Copy this code into Arduino, then hit Upload to the board.  
+![img.png](arduino-upload.png)
 
-TODO: upload button screenshot
-
-If all worked correctly, the LED on the daughterboard should blink about once a second.
+If all worked correctly, the blue LED marked IO2 on the daughterboard should blink about once a second.
 
 ```cpp
 const int kLedPin = 2;
@@ -51,7 +62,10 @@ Re-implement the switch code from the last lab, and use it to gate the blinking.
 When the switch is pressed, the LED should blink once every second.
 When the switch is not pressed, the LED should be off.
 
-<details><summary><span style="color:DimGrey"><b>t🤔 Solution</b> (try it on your own first!)</span></summary>
+This definition may be useful:  
+`const int kButtonPin = 0;`
+
+<details><summary><span style="color:DimGrey"><b>🤔 Solution</b> (try it on your own first!)</span></summary>
 
   ```cpp
   const int kLedPin = 2;
@@ -84,27 +98,38 @@ With the print and analogRead detour out of the way, let's test the LED ring fro
 If you have simulator code from yesterday, just copy that over to the real board.
 You don't need to try to merge this with the blinky LED code, we just want to test the hardware for now.
 Make sure to update the pinning:  
-`const int kNeopixelPin = 48;`  
+`const int kNeoPixelPin = 48;`  
 and the LED counts:  
-`const int kNeopixelCount = 12;`
+`const int kNeoPixelCount = 12;`
+
+Note that these LEDs are BRIGHT and you may want to lower their brightness.
+If your `Adafruit_NeoPixel` object is `LedRing` as consistent with the previous lab, consider inserting this code in `setup()`:  
+```cpp
+LedRing.setBrightness(32);
+```
+
+Like the RGB color channels, brightness is defined from 0 to 255.
+A brightness of 32 is approximately 1/8th of full brightness.
 
 <details><summary><span style="color:DimGrey">🤔 Otherwise, you can use this reference rainbow ring code</span></summary>
 
   ```cpp
   #include <Adafruit_NeoPixel.h>
-  const int kNeopixelCount = 12;
-  Adafruit_NeoPixel LedRing(kNeopixelCount, kNeopixelPin);
+  const int kNeoPixelPin = 48;
+  const int kNeoPixelCount = 12;
+  Adafruit_NeoPixel LedRing(kNeoPixelCount, kNeoPixelPin);
   
   void setup() {
     // put your setup code here, to run once:
     LedRing.begin();
+    LedRing.setBrightness(32);
   }
 
   int offset = 0;
   
   void loop() {
     // put your main code here, to run repeatedly:
-    for (int i=0; i<kNeopixelCount; i++) {
+    for (int i=0; i<kNeoPixelCount; i++) {
       int index = (i + offset) % 6;
       if (index % 6 == 0) {
         LedRing.setPixelColor(i, LedRing.Color(255, 0, 0));
@@ -154,32 +179,31 @@ This is typically done using a Serial port, and is a common way to debug embedde
 >   However, the concept is still the same: a stream of characters from the microcontroller to the screen, which can be displayed as text. 
 > </details>
 
-Copy this code into Arduino, but before uploading, open the Serial Monitor (main menu -> Tools -> Serial Monitor).
-Then, hit Upload to load the code onto the board.
-By starting serial monitor beforehand, you can see the output from the board as soon as it starts running, including prints in setup().
-TODO serial monitor screen, upload screen
+Copy this code into Arduino, but before uploading, open the Serial Monitor (**main menu -> Tools -> Serial Monitor**).
+A shortcut button to launch the serial monitor is available available at the top right:  
+![img.png](arduino-serial-monitor-button.png)
+
+Then, hit Upload to load the code onto the board:
 
 ```cpp
-const int kLedPin = 2;
-
-
 void setup() {
   // put your setup code here, to run once:
-  pinMode(kLedPin, OUTPUT);
-
   Serial.begin(115200);
   Serial.println("Hello, real ESP32!");
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  Serial.println("Blink");
-  digitalWrite(kLedPin, HIGH);
-  delay(500);
-  digitalWrite(kLedPin, LOW);
+  Serial.println("Loop");
   delay(500);
 }
 ```
+
+By starting serial monitor beforehand, you can see the output from the board as soon as it starts running, including prints in setup().
+If it all worked, wou should see this at the bottom of the Arduino IDE:  
+![img.png](arduino-serial-monitor.png)
+
+Note that the NeoPixels retain their previous state, so those may still remain lit even if we aren't sending new commands to them.
 
 
 ## Activity 2.4: Reading the Light Sensor
@@ -187,7 +211,6 @@ void loop() {
 Now that we can print text, let's try reading the light sensor.
 While the prior labs have only used digital communications, this light sensor communicates using analog, by varying a voltage according to the intensity of incoming light.
 Do note that the light sensor is set up so that less light means a higher voltage, while more light means a lower voltage.
-Under pitch darkness (such as if you cover the sensor with a finger), it should read 3.3v.
 
 Let's put these two things together, and try running this code:
 
@@ -204,7 +227,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   Serial.println(analogRead(kLightSensorPin));
-  delay(250);
+  delay(100);
 }
 ```
 
@@ -218,9 +241,11 @@ Hopefully this code reads pretty straightforwardly, but there's a few things to 
 ### Serial Plotter
 
 While watching numbers scroll by is better than nothing, it may not be the most intuitive way to work with data.
-Arduino also provides a Serial Plotter, which will plot points from numbers received over Serial.
+Arduino also provides a Serial Plotter (**main menu > Tools > Serial Plotter**), which will plot points from numbers received over Serial.
 
-TODO screenshots
+![img.png](arduino-serial-plotter.png)
+
+To get the value to change, try covering the light sensor with your hand, or shining a light (if you can turn on the flashlight on your phone) on it. 
 
 
 ## Activity 2.5: OLED Display

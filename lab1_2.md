@@ -298,7 +298,7 @@ You'll need to install this in Wokwi:
 - Add "Adafruit NeoPixel"
   - Ignore the Adafruit DMA neopixel library
 
-![Wokwi Neopixel library](wokwi-library-neopixel.png)
+![Wokwi NeoPixel library](wokwi-library-neopixel.png)
 
 > If you're curious, you can find the library repository and readme on GitHub at [https://github.com/adafruit/Adafruit_NeoPixel](https://github.com/adafruit/Adafruit_NeoPixel).
 > We'll summarize what you need to know for the lab here, but if you were working on your own, the readme is a good place to start.
@@ -313,11 +313,11 @@ With the library imported, try running this example code:
 ```cpp
 const int kLedPin = 2;
 const int kButtonPin = 13;
-const int kNeopixelPin = 12;
+const int kNeoPixelPin = 12;
 
 #include <Adafruit_NeoPixel.h>
-const int kNeopixelCount = 16;
-Adafruit_NeoPixel LedRing(kNeopixelCount, kNeopixelPin);
+const int kNeoPixelCount = 16;
+Adafruit_NeoPixel LedRing(kNeoPixelCount, kNeoPixelPin);
 
 void setup() {
   // put your setup code here, to run once:
@@ -332,7 +332,7 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  for (int i=0; i<kNeopixelCount; i++) {
+  for (int i=0; i<kNeoPixelCount; i++) {
     LedRing.setPixelColor(i, LedRing.Color(0, 150, 0));
   }
   LedRing.show();
@@ -344,11 +344,11 @@ Once again, there's a few new things in this example:
 - We've already covered `#include` in the prior Intro to C++ section.
 - While we've covered object use above, here you have to create the `Adafruit_NeoPixel` object.
   - The syntax for creating an object in C++ is the class name, variable name, and arguments.  
-    `Adafruit_NeoPixel LedRing(kNeopixelCount, kNeopixelPin);` means to create an object of class `Adafruit_NeoPixel`, named `LedRing`, and with arguments `kNeopixelCount` and `kNeopixelPin`.  
+    `Adafruit_NeoPixel LedRing(kNeoPixelCount, kNeoPixelPin);` means to create an object of class `Adafruit_NeoPixel`, named `LedRing`, and with arguments `kNeoPixelCount` and `kNeoPixelPin`.  
     > <details><summary>🐍 The Python equivalent would be...</summary>
     > 
     >   ```python
-    >   LedRing = Adafruit_NeoPixel(kNeopixelCount, kNeopixelPin)
+    >   LedRing = Adafruit_NeoPixel(kNeoPixelCount, kNeoPixelPin)
     >   ```
     > </details>
   - When you're familiar with the base language, one trick to quickly getting started with a library is to look for an example and pattern-match.
@@ -380,7 +380,7 @@ Specifically, the ring should have these six colors, repeating every six LEDs:
 Because there are 16 LEDs which doesn't evenly divide into 6, there will be a discontinuity at the first LED.
 This is fine.
 
-Write your code in a way that's robust to different `kNeopixelCount`.
+Write your code in a way that's robust to different `kNeoPixelCount`.
 While there's many ways to implement this, you might consider using the modulo operator `%` to determine where in the sequence of 6 colors a particular pixel is at.
 For example, on LED 0, `0 % 6 = 0` for the first color, while on LED 6, `6 % 6 = 0` for the first color again after rolling around.
 
@@ -391,11 +391,11 @@ It's totally fine to use 6 `if` / `else if` / `else` blocks here!
   ```cpp
   const int kLedPin = 2;
   const int kButtonPin = 13;
-  const int kNeopixelPin = 12;
+  const int kNeoPixelPin = 12;
   
   #include <Adafruit_NeoPixel.h>
-  const int kNeopixelCount = 16;
-  Adafruit_NeoPixel LedRing(kNeopixelCount, kNeopixelPin);
+  const int kNeoPixelCount = 16;
+  Adafruit_NeoPixel LedRing(kNeoPixelCount, kNeoPixelPin);
   
   void setup() {
     // put your setup code here, to run once:
@@ -410,7 +410,7 @@ It's totally fine to use 6 `if` / `else if` / `else` blocks here!
 
   void loop() {
     // put your main code here, to run repeatedly:
-    for (int i=0; i<kNeopixelCount; i++) {
+    for (int i=0; i<kNeoPixelCount; i++) {
       int index = i % 6;
       if (index == 0) {
         LedRing.setPixelColor(i, LedRing.Color(255, 0, 0));
@@ -445,11 +445,11 @@ If you want to save state between loops, you can declare a variable outside `loo
   ```cpp
   const int kLedPin = 2;
   const int kButtonPin = 13;
-  const int kNeopixelPin = 12;
+  const int kNeoPixelPin = 12;
   
   #include <Adafruit_NeoPixel.h>
-  const int kNeopixelCount = 16;
-  Adafruit_NeoPixel LedRing(kNeopixelCount, kNeopixelPin);
+  const int kNeoPixelCount = 16;
+  Adafruit_NeoPixel LedRing(kNeoPixelCount, kNeoPixelPin);
   
   void setup() {
     // put your setup code here, to run once:
@@ -466,7 +466,7 @@ If you want to save state between loops, you can declare a variable outside `loo
   
   void loop() {
     // put your main code here, to run repeatedly:
-    for (int i=0; i<kNeopixelCount; i++) {
+    for (int i=0; i<kNeoPixelCount; i++) {
       int index = (i + offset) % 6;
       if (index % 6 == 0) {
         LedRing.setPixelColor(i, LedRing.Color(255, 0, 0));
@@ -563,11 +563,11 @@ So here, we'll solve this by eliminating delays, instead using a clock function 
 ```cpp
 const int kLedPin = 2;
 const int kButtonPin = 13;
-const int kNeopixelPin = 12;
+const int kNeoPixelPin = 12;
 
 #include <Adafruit_NeoPixel.h>
-const int kNeopixelCount = 16;
-Adafruit_NeoPixel LedRing(kNeopixelCount, kNeopixelPin);
+const int kNeoPixelCount = 16;
+Adafruit_NeoPixel LedRing(kNeoPixelCount, kNeoPixelPin);
 
 void setup() {
   // put your setup code here, to run once:
@@ -626,11 +626,11 @@ Let's fix that: rewrite the LED ring code in the above style, and make it so tha
   ```cpp
   const int kLedPin = 2;
   const int kButtonPin = 13;
-  const int kNeopixelPin = 12;
+  const int kNeoPixelPin = 12;
   
   #include <Adafruit_NeoPixel.h>
-  const int kNeopixelCount = 16;
-  Adafruit_NeoPixel LedRing(kNeopixelCount, kNeopixelPin);
+  const int kNeoPixelCount = 16;
+  Adafruit_NeoPixel LedRing(kNeoPixelCount, kNeoPixelPin);
   
   void setup() {
     // put your setup code here, to run once:
@@ -652,7 +652,7 @@ Let's fix that: rewrite the LED ring code in the above style, and make it so tha
   void loop() {
     // put your main code here, to run repeatedly:
     if (millis() >= ringUpdateTime) {
-      for (int i=0; i<kNeopixelCount; i++) {
+      for (int i=0; i<kNeoPixelCount; i++) {
         int index = (i + offset) % 6;
         if (index % 6 == 0) {
           LedRing.setPixelColor(i, LedRing.Color(255, 0, 0));
