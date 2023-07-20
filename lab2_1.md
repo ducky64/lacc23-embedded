@@ -337,8 +337,8 @@ void loop() {
 
 Hopefully most of this code is self-explanatory, but there's a few things to note:
 - We need to `clearDisplay()` to clear the prior logo.
-- `drawRect(x, y, w, h, color)` draws a rectangle from (x1, y1) to (x2, y2) using the specified color.
-  - To draw a box around the entire screen, we start at `(0, 0)` with `kScreenWidth` wide and `kScreenHeight` high.
+- `drawRect(x, y, w, h, color)` draws a rectangle starting at `(x, y)` and with width `w` and height `h` using the specified color.
+  - To draw a box around the entire screen, we start at `(0, 0)` with width `kScreenWidth` and height `kScreenHeight`.
   - Our OLED is monochrome, so we really only have the option of `WHITE`.
 - Text operations are a bit more complex.
   While draw operations contain all their arguments (position, color) in the function call, for text those are stored and configured by separate functions like `setTextColor(...)` and `setCursor(...)`.
