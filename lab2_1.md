@@ -99,7 +99,7 @@ This definition may be useful:
 
 ## Activity 2.2: Porting over the LED Ring
 
-With the print and analogRead detour out of the way, let's test the LED ring from the last lab.
+With the `print` and `analogRead` detour out of the way, let's test the LED ring from the last lab.
 
 If you have simulator code from yesterday, just copy that over to the real board.
 You don't need to try to merge this with the blinky LED code, we just want to test the hardware for now.
@@ -111,7 +111,7 @@ and the LED counts:
 Note that these LEDs are BRIGHT and you may want to lower their brightness.
 If your `Adafruit_NeoPixel` object is `LedRing` as consistent with the previous lab, consider inserting this code in `setup()`:  
 ```cpp
-LedRing.setBrightness(32);
+LedRing.setBrightness(16);
 ```
 
 Like the RGB color channels, brightness is defined from 0 to 255.
@@ -156,6 +156,41 @@ A brightness of 32 is approximately 1/8th of full brightness.
     delay(250);
   }
   ```
+</details>
+
+
+<details><summary>⚠️ Hardware is Hard: Fix for flickering / wrong RGBs</summary>
+
+  For reasons we're not completely sure of, the lights might not do the right thing - maybe they flicker, or display the wrong color.
+  This may be because of an issue in the Adafruit_NeoPixel library, where issues can cause it to generate a bad signal, especially since signals are very timing-sensitive.
+
+  One solution is to use a different library like NeoPixelBus which seems more robust in practice.
+  To use NeoPixelBus, change the defines as follows:
+  ```diff
+  - #include <Adafruit_NeoPixel.h>
+  - Adafruit_NeoPixel LedRing(kNeoPixelCount, kNeoPixelPin);
+  + #include <NeoPixelBrightnessBus.h>
+  + NeoPixelBrightnessBus<NeoGrbFeature, NeoWs2812xMethod> LedRing(kNeoPixelCount, kNeoPixelPin);
+  ```
+
+  (in diff notation above, red means lines to remove, green means lines to add)
+
+  The calls to LedRing are similar in the rest of the code, except that the first letter is capitalized and use `RgbColor(...)` instead of `LedRing.Color(...)`.
+
+  ```diff
+  - LedRing.begin();
+  - LedRing.setBrightness(32);
+  + LedRing.Begin();
+  + LedRing.SetBrightness(32);
+    ...
+  - LedRing.setPixelColor(i + 1, LedRing.Color(0, 255, 0));
+  - LedRing.show();
+  + LedRing.SetPixelColor(i + 1, RgbColor(0, 255, 0));
+  + LedRing.Show();
+  ```
+
+  The rest of the lab example code and solutions will continue using Adafruit_Neopixel, but you can swap in NeoPixelBus if that's giving you issues. 
+
 </details>
 
 
