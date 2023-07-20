@@ -560,6 +560,7 @@ That's it for the base part of the lab.
 If you have time, here are some more options:
 - You can continue playing with the OLED and light sensor
   - Consider changing the color in addition to just the number of LEDs lit 
-- If you're interested in moving parts, consider trying the Servo extension.
+- If you're interested in moving parts, consider [trying the Servo extension](lab2_2_servo.md).
   You'll use a servo motor to move a mechanical dial in response to the light intensity.
-- If you're interested in the Internet of Things (IoT), WiFi, or low-code / no-code approaches, consider trying the ESPHome extension.
+- If you're interested in the Internet of Things (IoT), WiFi, or low-code / no-code approaches, consider [trying the ESPHome extension](lab2_2_esphome.md).
+  You'll create a configuration file for this board, which will generate a web interface for controlling everything.

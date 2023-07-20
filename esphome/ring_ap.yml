@@ -1,0 +1,32 @@
+esphome:
+  name: ring_ap
+  name_add_mac_suffix: true
+  platform: esp32
+  board: esp32-s3-devkitc-1
+
+wifi:
+  ap:
+    ssid: "Ring Board"
+
+logger:  # Print Updates
+
+web_server:  # WebServer control interface
+  port: 80
+  local: true  # support running without an internet connection
+
+light:
+  - platform: neopixelbus
+    id: led
+    variant: WS2812
+    pin: GPIO48
+    num_leds: 12
+    name: "NeoPixels"
+    effects:
+      - addressable_rainbow:
+          name: Rainbow
+
+sensor:
+  - platform: adc
+    pin: GPIO1
+    name: "Brightness Raw"
+    update_interval: 1s
