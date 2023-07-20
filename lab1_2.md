@@ -697,3 +697,6 @@ One thing that we didn't address here, but you should be aware of, is that `mill
 This probably won't happen for many days of a system being constantly up, but if you are designing a long-lived system, you may need to take steps to address overflow.
 
 And that's all, folks!
+
+If you're coming in-person tomorrow, don't forget to bring a laptop that's set up with the tools you'll need.
+See the [instructions for setup](lab2_0.md).

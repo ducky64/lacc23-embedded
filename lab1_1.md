@@ -326,3 +326,5 @@ Consider starting from the solution in 1.3, and remember that you can call other
 
 This barely scratches the surface of the full depth of C and C++, but it's enough to get started with embedded programming.
 In the next section, we'll apply what we've learned here to controlling hardware in a simulator.
+
+[Continue to the next section.](lab1_2.md)
