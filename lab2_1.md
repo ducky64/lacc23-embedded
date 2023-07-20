@@ -159,39 +159,39 @@ A brightness of 32 is approximately 1/8th of full brightness.
 </details>
 
 
-<details><summary>⚠️ Hardware is Hard: Fix for flickering / wrong RGBs</summary>
-
-  For reasons we're not completely sure of, the lights might not do the right thing - maybe they flicker, or display the wrong color.
-  This may be because of an issue in the Adafruit_NeoPixel library, where issues can cause it to generate a bad signal, especially since signals are very timing-sensitive.
-
-  One solution is to use a different library like NeoPixelBus which seems more robust in practice.
-  To use NeoPixelBus, change the defines as follows:
-  ```diff
-  - #include <Adafruit_NeoPixel.h>
-  - Adafruit_NeoPixel LedRing(kNeoPixelCount, kNeoPixelPin);
-  + #include <NeoPixelBrightnessBus.h>
-  + NeoPixelBrightnessBus<NeoGrbFeature, NeoWs2812xMethod> LedRing(kNeoPixelCount, kNeoPixelPin);
-  ```
-
-  (in diff notation above, red means lines to remove, green means lines to add)
-
-  The calls to LedRing are similar in the rest of the code, except that the first letter is capitalized and use `RgbColor(...)` instead of `LedRing.Color(...)`.
-
-  ```diff
-  - LedRing.begin();
-  - LedRing.setBrightness(32);
-  + LedRing.Begin();
-  + LedRing.SetBrightness(32);
-    ...
-  - LedRing.setPixelColor(i, LedRing.Color(0, 255, 0));
-  - LedRing.show();
-  + LedRing.SetPixelColor(i, RgbColor(0, 255, 0));
-  + LedRing.Show();
-  ```
-
-  The rest of the lab example code and solutions will continue using Adafruit_Neopixel, but you can swap in NeoPixelBus if that's giving you issues. 
-
-</details>
+> <details><summary>🛠 Hardware is Hard: Fix for flickering / wrong RGBs</summary>
+> 
+>   For reasons we're not completely sure of, the lights might not do the right thing - maybe they flicker, or display the wrong color.
+>   This may be because of an issue in the Adafruit_NeoPixel library, where issues can cause it to generate a bad signal, especially since signals are very timing-sensitive.
+> 
+>   One solution is to use a different library like NeoPixelBus which seems more robust in practice.
+>   To use NeoPixelBus, change the defines as follows:
+>   ```diff
+>   - #include <Adafruit_NeoPixel.h>
+>   - Adafruit_NeoPixel LedRing(kNeoPixelCount, kNeoPixelPin);
+>   + #include <NeoPixelBrightnessBus.h>
+>   + NeoPixelBrightnessBus<NeoGrbFeature, NeoWs2812xMethod> LedRing(kNeoPixelCount, kNeoPixelPin);
+>   ```
+> 
+>   (in diff notation above, red means lines to remove, green means lines to add)
+> 
+>   The calls to LedRing are similar in the rest of the code, except that the first letter is capitalized and use `RgbColor(...)` instead of `LedRing.Color(...)`.
+> 
+>   ```diff
+>   - LedRing.begin();
+>   - LedRing.setBrightness(32);
+>   + LedRing.Begin();
+>   + LedRing.SetBrightness(32);
+>     ...
+>   - LedRing.setPixelColor(i, LedRing.Color(0, 255, 0));
+>   - LedRing.show();
+>   + LedRing.SetPixelColor(i, RgbColor(0, 255, 0));
+>   + LedRing.Show();
+>   ```
+> 
+>   The rest of the lab example code and solutions will continue using Adafruit_Neopixel, but you can swap in NeoPixelBus if that's giving you issues. 
+> 
+> </details>
 
 
 ## Activity 2.3: Print on Hardware
@@ -290,6 +290,18 @@ Arduino also provides a Serial Plotter (**main menu > Tools > Serial Plotter**),
 ![img.png](arduino-serial-plotter.png)
 
 To get the value to change, try covering the light sensor with your hand, or shining a light (if you can turn on the flashlight on your phone) on it. 
+
+> <details><summary>🛠 Hardware is Hard: why does is light sensor reading fluctuating?</summary>
+>
+> You may notice that even under seemingly constant light, the value fluctuates.
+> In the US, fluorescent lights may be fluctuating at 120Hz, too fast to be perceived by eyes which will just average out the incoming light.
+> The light sensor responds much faster, and these will show up in your signal.
+>
+> You can try putting the sensor nearer sunlight which is much more constant.
+> Some flashlights, if you have one, may also put out a more constant light source.
+>
+> If you want to see this high-frequency signal, try changing the `delay(...)` to 1ms and using the Serial Plotter.
+> </details>
 
 
 ## Activity 2.5: OLED Display
@@ -539,3 +551,14 @@ Avoid using the first and last pixel (the ones closest to the light sensor) to a
   }
   ```
 </details>
+
+
+## Choose your own adventure!
+
+That's it for the base part of the lab.
+
+If you have time, here are some more options:
+- You can continue playing with the OLED and light sensor
+  - Consider changing the color in addition to just the number of LEDs lit 
+- If you're interested in moving parts, consider trying the Servo extension
+- If you're interested in the Internet of Things (IoT), WiFi, or low-code / no-code approaches, consider trying the ESPHome extension.
