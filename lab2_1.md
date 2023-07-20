@@ -183,9 +183,9 @@ A brightness of 32 is approximately 1/8th of full brightness.
   + LedRing.Begin();
   + LedRing.SetBrightness(32);
     ...
-  - LedRing.setPixelColor(i + 1, LedRing.Color(0, 255, 0));
+  - LedRing.setPixelColor(i, LedRing.Color(0, 255, 0));
   - LedRing.show();
-  + LedRing.SetPixelColor(i + 1, RgbColor(0, 255, 0));
+  + LedRing.SetPixelColor(i, RgbColor(0, 255, 0));
   + LedRing.Show();
   ```
 
