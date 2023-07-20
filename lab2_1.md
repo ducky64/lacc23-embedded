@@ -394,6 +394,14 @@ You may find the Adafruit Graphics Primitives documentation useful: https://lear
 You may make use of both drawRect and fillRect, though feel free to experiment with other graphical operations.
 One way to think of a progress bar is a box for the frame, and a filled box for the percentage complete.
 
+⚠️ When you display both a text version and progress bar, make sure to use the same value of `analogRead()`, _without calling `analogRead()` twice!_
+Consider storing the value of `analogRead()` in a variable, and using that in two places.
+Different calls to `analogRead()` can return different values.
+
+⚠️ Multiple `analogRead()`s in quick succession can distort the signal, since each read siphons a bit of charge from the line.
+Make sure to add a small delay between reads.
+
+
 <details><summary><span style="color:DimGrey"><b>🤔 Solution</b> (try it on your own first!)</span></summary>
 
   The rest of the code is the same, but replace `Oled.println(analogRead(kLightSensorPin));` in `loop()` with:

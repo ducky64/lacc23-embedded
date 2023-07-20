@@ -58,6 +58,7 @@ You may be able to partner up on the day of the lab, though.
 3. Also install these libraries:
    - **Adafruit SSD1306** by Adafruit
      - This may prompt you about dependencies being required, choose to "Install All"
+   - **NeoPixelBus by Makuna** by Michael C. Miller 
    - **ESP32Servo** by Kevin Harrington,John K. Bennett
 
 
