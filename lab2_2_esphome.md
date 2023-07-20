@@ -193,6 +193,7 @@ Address ix `0x3c` (default), rest pin is not connected (leave unspecified).
 
 Unlike the other components, this one requires code within a `lambda` block, that defines what the display (referred to as `it`) should do.
 You can start with the default `Hello World!`, but you can also see the full capabilities at the [`display` component documentation](https://esphome.io/components/display/index.html).
+You can print values of sensors, and there's even [graphs](https://esphome.io/components/display/index.html#graph-component)!
 
 Here is a pre-defined `i2c` component you could use, with proper pinning:
 ```yaml
