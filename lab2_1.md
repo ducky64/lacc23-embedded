@@ -24,8 +24,10 @@ There's a few more devices that won't be part of the core lab, but if you have t
    - Without this, the ring LED may behave weirdly
 5. Select the programming port: **main menu > Tools > Port > (your port here)**
    On most machines, there should be only one choice of port - select that.
-   If you see multiple ports, likely the last one is the right one.
    If you see no ports, it may not be seeing the connected board - feel free to ask for help!.
+   - On Mac, ignore the `Bluetooth` port.
+     You probably want the one saying `usbmodem`
+   - On Windows, it will probably be the last `COM` port.
 
 
 ## Activity 2.1: Hardware Bring-up
@@ -63,6 +65,8 @@ void loop() {
 Re-implement the switch code from the last lab, and use it to gate the blinking.
 When the switch is pressed, the LED should blink once every second.
 When the switch is not pressed, the LED should be off.
+
+The button you want to press is on the right side of the daughterboard, labeled "BOOT/IO0".
 
 This definition may be useful:  
 `const int kButtonPin = 0;`
@@ -182,8 +186,10 @@ This is typically done using a Serial port, and is a common way to debug embedde
 > </details>
 
 Copy this code into Arduino, but before uploading, open the Serial Monitor (**main menu -> Tools -> Serial Monitor**).
-A shortcut button to launch the serial monitor is available available at the top right:  
+A shortcut button to launch the serial monitor is available at the top right:  
 ![img.png](arduino-serial-monitor-button.png)
+
+Make sure to set the baud rate to 115200.
 
 Then, hit Upload to load the code onto the board:
 

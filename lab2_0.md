@@ -31,6 +31,22 @@ You will need Arduino IDE 2.0 or higher, configured for the ESP32 platform, and 
 6. If everything worked, you can select the ESP32S3 board: **main menu > Tools > Board > esp32 > ESP32S3 Dev Module**  
 
 
+### Install Drivers (Mac ONLY)
+
+If you're on a Mac, things apparently don't work out of the box.
+You get to spend extra time for extra fun.
+
+If you don't have admin access, you won't be able to install the driver and your computer (probably) won't be able to run the in-person lab.
+You may be able to partner up on the day of the lab, though.
+
+1. Download the CH341 drivers: http://www.wch.cn/downloads/CH34XSER_MAC_ZIP.html
+   Press the big blue button labeled "下载" to download the zip file:  
+   ![img.png](ch34x-download.png)
+   - Despite how it looks, this is (probably) legit.
+     It's a driver for the interface chip to program the microcontroller, which is from a Chinese manufacturer.
+2. Unzip the file, then double-click the .pkg file, and follow the instructions.
+
+
 ### Install Libraries
 
 1. Open the Library Manager: **main menu > Tools > Manage Libraries...**  
