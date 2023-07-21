@@ -66,6 +66,13 @@ You may be able to partner up on the day of the lab, though.
 
 ESPHome will be an optional part of the lab on low-code / no-code approaches to embedded software development.
 
-1. Install ESPHome: on the terminal, run `pip3 install esphome` (on Windows, this may be `pip install esphome`) 
-   - Don't worry if you can't get this to work.
+Setup for this is more complicated, don't worry if you can't get this to work - we can help during the in-person lab.
+
+1. Install ESPHome: on the terminal, run `pip3 install esphome` (on Windows, this may be `pip install esphome`)
    - More detailed instructions at the [ESPHome manual installation guide](https://esphome.io/guides/installing_esphome.html).
+2. Test your ESPHome install:
+   - Download an example config file: [ring_ap.yml](https://raw.githubusercontent.com/ducky64/lacc23-embedded/main/esphome/ring_ap.yml).
+   - You'll use this file during the lab tomorrow, save this to some sensible location you'll be using tomorrow.
+   - In the folder where you downloaded the file, run `esphome compile ring_ap.yml`.
+   - This might take a while as it downloads libraries and compiles the code, but if all worked, it should end with:  
+     `[SUCCESS] Took xx.xx seconds`

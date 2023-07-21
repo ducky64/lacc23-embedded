@@ -9,7 +9,7 @@ _In this lab, we'll run ESPHome in standalone mode, where the device exposes a W
 _More commonly, these devices will connect to a home WiFi network and interact with some kind of home automation server, like [Home Assistant](https://www.home-assistant.io/)._
 
 We've included a config file for the ring board including the NeoPixels and light sensor.
-You can either copy the description below to `ring_ap.yml`, or download the included file, [ring_ap](esphome/ring_ap.yml).
+You can either copy the description below to `ring_ap.yml`, or download the included file, [ring_ap.yml](https://raw.githubusercontent.com/ducky64/lacc23-embedded/main/esphome/ring_ap.yml).
 
 ```yaml
 esphome:
