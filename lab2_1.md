@@ -170,7 +170,7 @@ A brightness of 32 is approximately 1/8th of full brightness.
 >   - #include <Adafruit_NeoPixel.h>
 >   - Adafruit_NeoPixel LedRing(kNeoPixelCount, kNeoPixelPin);
 >   + #include <NeoPixelBrightnessBus.h>
->   + NeoPixelBrightnessBus<NeoGrbFeature, NeoWs2812xMethod> LedRing(kNeoPixelCount, kNeoPixelPin);
+>   + NeoPixelBrightnessBus<NeoGrbFeature, NeoEsp32Rmt0Ws2812xMethod> LedRing(kNeoPixelCount, kNeoPixelPin);
 >   ```
 > 
 >   (in diff notation above, red means lines to remove, green means lines to add)
