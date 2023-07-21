@@ -291,7 +291,7 @@ Arduino also provides a Serial Plotter (**main menu > Tools > Serial Plotter**),
 
 To get the value to change, try covering the light sensor with your hand, or shining a light (if you can turn on the flashlight on your phone) on it. 
 
-> <details><summary>🛠 Hardware is Hard: why does is light sensor reading fluctuating?</summary>
+> <details><summary>🛠 Hardware is Hard: why is light sensor reading fluctuating?</summary>
 >
 > You may notice that even under seemingly constant light, the value fluctuates.
 > In the US, fluorescent lights may be fluctuating at 120Hz, too fast to be perceived by eyes which will just average out the incoming light.
