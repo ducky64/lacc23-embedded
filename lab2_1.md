@@ -7,7 +7,7 @@ _They are safe to touch, but wash your hands prior to eating._
 _Not lick-safe._
 
 Since our focus is on the embedded programming aspect, we will be using this pre-built custom circuit board:
-![OwlBot pinning](owlbot-pinning.png)
+![OwlBot pinning](resources/img_owlbot/owlbot-pinning.png)
 
 It has an ESP32-S3 microcontroller in a socketed daughterboard with onboard switch and LED.
 The carrier board contains the LED ring (which you'd be familiar with from the simulator), a light sensor, and OLED display.
@@ -37,7 +37,7 @@ While we have full code including the LED ring from yesterday and validated in t
 
 Similarly to the last lab, the first thing we'll do is blink the LED, since this is the simplest thing that tests basic functionality
 Copy this code into Arduino, then hit Upload to the board.  
-![img.png](arduino-upload.png)
+![img.png](resources/img_arduino/arduino-upload.png)
 
 If all worked correctly, the blue LED marked IO2 on the daughterboard should blink about once a second.
 
@@ -222,7 +222,7 @@ This is typically done using a Serial port, and is a common way to debug embedde
 
 Copy this code into Arduino, but before uploading, open the Serial Monitor (**main menu -> Tools -> Serial Monitor**).
 A shortcut button to launch the serial monitor is available at the top right:  
-![img.png](arduino-serial-monitor-button.png)
+![img.png](resources/img_arduino/arduino-serial-monitor-button.png)
 
 Make sure to set the baud rate to 115200.
 
@@ -244,7 +244,7 @@ void loop() {
 
 By starting serial monitor beforehand, you can see the output from the board as soon as it starts running, including prints in setup().
 If it all worked, wou should see this at the bottom of the Arduino IDE:  
-![img.png](arduino-serial-monitor.png)
+![img.png](resources/img_arduino/arduino-serial-monitor.png)
 
 Note that the NeoPixels retain their previous state, so those may still remain lit even if we aren't sending new commands to them.
 
@@ -287,7 +287,7 @@ Hopefully this code reads pretty straightforwardly, but there's a few things to 
 While watching numbers scroll by is better than nothing, it may not be the most intuitive way to work with data.
 Arduino also provides a Serial Plotter (**main menu > Tools > Serial Plotter**), which will plot points from numbers received over Serial.
 
-![img.png](arduino-serial-plotter.png)
+![img.png](resources/img_arduino/arduino-serial-plotter.png)
 
 To get the value to change, try covering the light sensor with your hand, or shining a light (if you can turn on the flashlight on your phone) on it. 
 

@@ -22,7 +22,7 @@ We've looked through a few options, and [Online CPP](https://www.online-cpp.com/
 However, if you know what you're doing, feel free to use something else - or just skip to the next section.
 
 Online CPP starts like this (in dark mode):  
-![Online CPP initial](online_cpp_initial.png)
+![Online CPP initial](resources/img_cpp/online_cpp_initial.png)
 
 Ignore and delete the default code: this makes use of more advanced features common for PC programming and probably won't work on lower-end microcontrollers.
 We'll start simpler.
@@ -49,7 +49,7 @@ int main() {
 > </details>
 
 If everything worked, you should see this output:  
-![Hello World output](hello_world_console.png)
+![Hello World output](resources/img_cpp/hello_world_console.png)
 
 Using the code above as an example, here's a few ways C++ differs from Python:
 - `#include` performs a similar function to Python's `import` (though the underlying mechanisms are very different).

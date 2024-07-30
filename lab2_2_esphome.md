@@ -61,7 +61,7 @@ On either your phone or laptop, look for the WiFi network named the SSID you cho
 ⚠️ If your phone asks to stay connected to the network because it does not have internet, choose to stay connected.
 
 Then, from a web browser, go to http://192.168.4.1, and you should see the ESPHome web interface (example for Android):  
-![ESPHome web interface](esphome_android.png)
+![ESPHome web interface](resources/esphome_android.png)
 
 This will update the voltage measured on the light sensor analog pin, and allows you to control the NeoPixel ring.
 By default, you can adjust the brightness and select a rainbow pattern.

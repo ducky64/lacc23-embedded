@@ -21,10 +21,10 @@ Instead, the first program is commonly to blink an LED.
 
 Like with Hello, world!, we'll provide a base to build on.
 **[Start with this linked Wokwi project](https://wokwi.com/projects/369909925978652673), which includes a circuit and example code.**  
-![Wokwi interface](wokwi_intro.png)
+![Wokwi interface](resources/img_wokwi/wokwi_intro.png)
 
 Let's go over the circuit first:  
-![ESP32 Circuit](wokwi_esp32_circuit_annotated.png)
+![ESP32 Circuit](resources/img_wokwi/wokwi_esp32_circuit_annotated.png)
 - At the heart is a ESP32, a low-cost microcontroller with WiFi and Bluetooth that is popular with the maker community.
   - Think of a microcontroller as a low-end computer on a chip: it has a CPU, memory, and storage.
   - It also has pins which are controlled by the processor.
@@ -74,7 +74,7 @@ void loop() {
 ```
 
 Run it (with the arrow button) and you should see the red LED blinking on and off!  
-![Wokwi add component](wokwi-add-button.png)  
+![Wokwi add component](resources/img_wokwi/wokwi-add-button.png)  
 
 While this is still C++ code, this differs from the prior examples significantly.
 - There is no `main()` function, instead, there are two functions: `setup()` and `loop()`.
@@ -107,7 +107,7 @@ While this is still C++ code, this differs from the prior examples significantly
     - `Serial.println("Hello, ESP32!")` prints a message to the console.
       `println` includes a newline at the end, different from `printf` and `print`.
     - In Wokwi, you can see this out put when you run:  
-      ![ESP32 Console](esp32_console.png)  
+      ![ESP32 Console](resources/esp32_console.png)  
       Ignore the stuff above `Hello, ESP32!`, the ESP32 prints system configuration details on startup for debugging.
 - `loop()` contains the main program logic.
   - `digitalWrite(kLedPin, HIGH)` sets the pin voltage high, lighting up the LED.
@@ -164,23 +164,23 @@ While blinking LEDs are fun, sensing and reading inputs are typically critical p
 
 Start by adding a button to your circuit.
 Click the + button to add a component (if the simulation is running, you'll need to stop it first to see the + button):  
-![Wokwi add component](wokwi-add-button.png)  
+![Wokwi add component](resources/img_wokwi/wokwi-add-button.png)  
 - If you see this, you need to stop the simulation first:  
-  ![Wokwi simulator running](wokwi-stop-button.png)  
+  ![Wokwi simulator running](resources/img_wokwi/wokwi-stop-button.png)  
 
 Then, select "pushbutton" from the list:  
-![Wokwi pushbutton](wokwi-pushbutton.png)  
+![Wokwi pushbutton](resources/img_wokwi/wokwi-pushbutton.png)  
 The component will appear on the circuit, drag it to somewhere reasonable on the left of the ESP32:  
-![Button placed](wokwi-button-disconnected.png)  
+![Button placed](resources/img_wokwi/wokwi-button-disconnected.png)  
 Wire the button up to the ESP32:
 - Click a pin to start a wire, then click the other pin to connect them.  
-  ![Button pin](wokwi-button-pin.png)
+  ![Button pin](resources/img_wokwi/wokwi-button-pin.png)
   - While wiring, you can click anywhere to insert a bend in the wire.
 - Connect the top pin of the button to D13 on the ESP32.
 - Connect the bottom pin of the button to GND on the ESP32.
 
 The connected circuit might look like this:  
-![Button connected](wokwi-button-connected.png)
+![Button connected](resources/img_wokwi/wokwi-button-connected.png)
 
 With the circuit built, let's write some code to read the button.
 ```cpp
@@ -276,7 +276,7 @@ Even better, these can be chained, allowing arbitrarily ridiculous numbers of LE
 > </details>
 
 Add the NeoPixel ring, just like you did with the switch:  
-![Wokwi LED ring component](wokwi-ledring.png)  
+![Wokwi LED ring component](resources/img_wokwi/wokwi-ledring.png)  
 And wire it up:
 - NeoPixel GND to ESP32 GND,
 - NeoPixel VCC to ESP32 VIN,
@@ -284,7 +284,7 @@ And wire it up:
 - NeoPixel DOUT disconnected.
 
 The connected circuit might look like this (yes, the wiring is a mess...):  
-![Wokwi LED ring connected](wokwi-ledring-connected.png)
+![Wokwi LED ring connected](resources/img_wokwi/wokwi-ledring-connected.png)
 
 Now, for the software.
 In theory, you could read the [chip datasheet](https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf), understand the signaling protocol (page 4), and use a series of `digitalWrite(...)` and `delay(...)` to generate the required signal, but that's a lot of (actually pretty tricky) work.
@@ -298,7 +298,7 @@ You'll need to install this in Wokwi:
 - Add "Adafruit NeoPixel"
   - Ignore the Adafruit DMA neopixel library
 
-![Wokwi NeoPixel library](wokwi-library-neopixel.png)
+![Wokwi NeoPixel library](resources/img_wokwi/wokwi-library-neopixel.png)
 
 > If you're curious, you can find the library repository and readme on GitHub at [https://github.com/adafruit/Adafruit_NeoPixel](https://github.com/adafruit/Adafruit_NeoPixel).
 > We'll summarize what you need to know for the lab here, but if you were working on your own, the readme is a good place to start.
@@ -353,7 +353,7 @@ Once again, there's a few new things in this example:
     > </details>
   - When you're familiar with the base language, one trick to quickly getting started with a library is to look for an example and pattern-match.
     Here, we've largely adapted the Adafruit NeoPixel example on the readme, [https://github.com/adafruit/Adafruit_NeoPixel#simple](https://github.com/adafruit/Adafruit_NeoPixel#simple):  
-    ![Adafruit NeoPixel example snippet](adafruit-npx-example.png)
+    ![Adafruit NeoPixel example snippet](resources/img_arduino/adafruit-npx-example.png)
   - You can also look for the library interfaces.
     In [Adafruit_NeoPixel.h](https://github.com/adafruit/Adafruit_NeoPixel/blob/ca89075cc5091a06ac5e5f162a467b877f95f00c/Adafruit_NeoPixel.h#L219), the object constructor is defined as  
     `Adafruit_NeoPixel(uint16_t n, int16_t pin = 6,
