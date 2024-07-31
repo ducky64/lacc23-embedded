@@ -61,7 +61,7 @@ On either your phone or laptop, look for the WiFi network named the SSID you cho
 ⚠️ If your phone asks to stay connected to the network because it does not have internet, choose to stay connected.
 
 Then, from a web browser, go to http://192.168.4.1, and you should see the ESPHome web interface (example for Android):  
-![ESPHome web interface](resources/esphome_android.png)
+![ESPHome web interface](../resources/esphome_android.png)
 
 This will update the voltage measured on the light sensor analog pin, and allows you to control the NeoPixel ring.
 By default, you can adjust the brightness and select a rainbow pattern.
@@ -204,8 +204,8 @@ i2c:
 ```
 
 To draw text, also download these pixel fonts and place them in the same folder as your `ring_ap.yml` file.
-- [4x6.bdf](esphome/fonts/4x6.bdf)
-- [6x10.bdf](esphome/fonts/6x10.bdf)
+- [4x6.bdf](../esphome/fonts/4x6.bdf)
+- [6x10.bdf](../esphome/fonts/6x10.bdf)
 
 Then, add the config for them:
 ```yaml

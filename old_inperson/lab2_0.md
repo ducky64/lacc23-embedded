@@ -16,17 +16,17 @@ You will need Arduino IDE 2.0 or higher, configured for the ESP32 platform, and 
 
 1. Start Arduino.
 2. Open Preferences: **main menu > File > Preferences**  
-   ![img.png](resources/img_arduino/arduino-file-preferences.png)
+   ![img.png](../resources/img_arduino/arduino-file-preferences.png)
    - On a Mac, this may be **main menu > Arduino IDE > Settings**
 3. In the Additional board manager URLs, add:  
    `https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json`  
-   ![img.png](resources/img_arduino/arduino-board-urls.png)
+   ![img.png](../resources/img_arduino/arduino-board-urls.png)
    - If something is already there, separate the URLs with a comma.
 4. Open the Boards Manager: **main menu > Tools > Board > Boards Manager**  
-   ![img.png](resources/img_arduino/arduino-board-manager.png)
+   ![img.png](../resources/img_arduino/arduino-board-manager.png)
 5. The Boards Manager will show up on the left panel.
    In the search box, enter `ESP32`, then click **Install** on **esp32** by Espressif Systems  
-   ![img.png](resources/img_arduino/arduino-board-manager-esp32.png)
+   ![img.png](../resources/img_arduino/arduino-board-manager-esp32.png)
    - This may take a while
 6. If everything worked, you can select the ESP32S3 board: **main menu > Tools > Board > esp32 > ESP32S3 Dev Module**  
 
@@ -41,7 +41,7 @@ You may be able to partner up on the day of the lab, though.
 
 1. Download the CH341 drivers: http://www.wch.cn/downloads/CH34XSER_MAC_ZIP.html
    Press the big blue button labeled "下载" to download the zip file:  
-   ![img.png](resources/ch34x-download.png)
+   ![img.png](../resources/ch34x-download.png)
    - Despite how it looks, this is (probably) legit.
      It's a driver for the interface chip to program the microcontroller, which is from a Chinese manufacturer.
 2. Unzip the file, then double-click the .pkg file, and follow the instructions.
@@ -50,10 +50,10 @@ You may be able to partner up on the day of the lab, though.
 ### Install Libraries
 
 1. Open the Library Manager: **main menu > Tools > Manage Libraries...**  
-   ![img.png](resources/img_arduino/arduino-library-manager.png)
+   ![img.png](../resources/img_arduino/arduino-library-manager.png)
 2. The Library Manager will show up on the left panel (where the Boards Manager was).
    In the search box, enter `Adafruit Neopixel`, and click install on **Adafruit NeoPixel** by Adafruit  
-   ![img.png](resources/img_arduino/arduino-library-neopixel.png)
+   ![img.png](../resources/img_arduino/arduino-library-neopixel.png)
    - This may take a while
 3. Also install these libraries:
    - **Adafruit SSD1306** by Adafruit

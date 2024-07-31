@@ -1,4 +1,4 @@
-## Day 1 (remote), section 1: intro to C++
+## Section 1: intro to C++
 
 _Lower end embedded systems typically have orders of magnitude less processing power and memory compared to a laptop or even smartphone._
 _This means that some of the features that make Python so easy to use, like automatic management of object creation and deletion, are not feasible on these devices._
@@ -322,9 +322,5 @@ Consider starting from the solution in 1.3, and remember that you can call other
 </details>
 
 
-## Next section
-
-This barely scratches the surface of the full depth of C and C++, but it's enough to get started with embedded programming.
-In the next section, we'll apply what we've learned here to controlling hardware in a simulator.
-
-[Continue to the next section.](lab1_2.md)
+That's it for the morning session on Intro to C++.
+Come back in the afternoon to use what you've learned here to build and program a virtual embedded device!
